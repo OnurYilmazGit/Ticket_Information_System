@@ -4,10 +4,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1024.0" styleClass="pane" stylesheets="@../tis_fx/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Controllers.Event_ScreenController">
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1015.0" styleClass="pane" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Event_ScreenController">
    <children>
-      <Label layoutX="358.0" layoutY="355.0" text="Event Screen Test" textFill="WHITE">
+      <Label layoutX="256.0" layoutY="331.0" text="Event Screen Test" textFill="WHITE">
          <font>
             <Font size="40.0" />
          </font>

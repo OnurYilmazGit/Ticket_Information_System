@@ -5,36 +5,45 @@
  */
 package Controllers;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
-
-import com.jfoenix.controls.JFXDrawer;
-import com.jfoenix.controls.JFXHamburger;
-import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class Event_ScreenController implements Initializable {
+/**
+ * FXML Controller class
+ *
+ * @author HP
+ */
+public class DrawerContentController implements Initializable {
 
-   
+    @FXML
+    private ImageView imageView;
+    
+    @FXML
+    private Button buttonMain;
 
+    @FXML
+    private Button buttonMyResarvations;
+
+    @FXML
+    private Button buttonExit;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      
-
    
-
-    }
+    } 
+    
 }

@@ -69,7 +69,7 @@ public class SignUpController {
             dAOImpl.insertUser(user);
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Views/Event_Screen.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
        
                 Scene scene = new Scene(fxmlLoader.load());
                 Stage stage = new Stage();

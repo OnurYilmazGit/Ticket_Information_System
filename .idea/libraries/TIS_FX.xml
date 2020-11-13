@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TIS_FX">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/dist/TIS_FX.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
