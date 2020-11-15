@@ -19,9 +19,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * FXML Controller class
@@ -33,16 +37,15 @@ public class Main_PageController implements Initializable {
     @FXML
     private Pane main_pane;
     private Parent fxml;
-    
+
     @FXML
     private JFXHamburger hamburger;
 
     @FXML
     private JFXDrawer drawer;
 
-    
-    public Main_PageController(){
-        
+    public Main_PageController() {
+
     }
 
     @Override
@@ -51,24 +54,23 @@ public class Main_PageController implements Initializable {
             fxml = FXMLLoader.load(getClass().getResource("/Views/Event_Screen.fxml"));
             main_pane.getChildren().removeAll();
             main_pane.getChildren().setAll(fxml);
-            
-            
+
             VBox vbox = FXMLLoader.load(getClass().getResource("/Views/DrawerContent.fxml"));
-            
+
             drawer.setSidePane(vbox);
-            
-            for(Node node: vbox.getChildren()){
-                if(node.getAccessibleText() != null){
+
+            for (Node node : vbox.getChildren()) {
+                if (node.getAccessibleText() != null) {
                     node.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-                        switch(node.getAccessibleText()){
+                        switch (node.getAccessibleText()) {
                             case "main_page":
                                 goToMainPage(e);
                                 break;
                             case "my_resarvations":
                                 goToResarvationPage(e);
                                 break;
-                            case "exit":
-                                Platform.exit();
+                            case "log_out":
+                                log_out(e);
                                 break;
                         }
                     });
@@ -90,13 +92,11 @@ public class Main_PageController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
 
-        
     }
-    
-    private void goToResarvationPage(MouseEvent e){
-           try {
+
+    private void goToResarvationPage(MouseEvent e) {
+        try {
             fxml = FXMLLoader.load(getClass().getResource("/Views/MyResarvationPage.fxml"));
             main_pane.getChildren().removeAll();
             main_pane.getChildren().setAll(fxml);
@@ -104,15 +104,34 @@ public class Main_PageController implements Initializable {
             Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-        private void goToMainPage(MouseEvent e){
-           try {
+
+    private void goToMainPage(MouseEvent e) {
+        try {
             fxml = FXMLLoader.load(getClass().getResource("/Views/Event_Screen.fxml"));
             main_pane.getChildren().removeAll();
             main_pane.getChildren().setAll(fxml);
         } catch (IOException ex) {
             Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void log_out(MouseEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/Views/FXMLDocument.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            scene.setFill(Color.TRANSPARENT);
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.show();
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        }
+
     }
 
 }
