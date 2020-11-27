@@ -25,5 +25,6 @@
 
        
 	<mapping class="Models.User"/>
+        <mapping class = "Models.Event"/>
     </session-factory>
 </hibernate-configuration>
