@@ -42,4 +42,62 @@ and open the template in the editor.
     -fx-background-radius: 5px;
     -fx-text-fill: #ffffff;
 }
+/*.table-view{
+  -fx-background-color: transparent
+}
 
+.table-row-cell:hover{
+    -fx-background-color:#5e6472;
+}
+.table-row-cell:empty{
+    -fx-background-color:#2196f3;
+}
+.table-row-cell:empty .table-cell{
+    -fx-border-width: 0px;
+}*/
+
+
+.table-view{
+    -fx-background-color: transparent;
+ }
+
+
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+
+
+
+.table-view .column-header {
+     -fx-background-color: transparent;
+} 
+
+
+.table-view .column-header-background{
+    -fx-background-color: linear-gradient(#2196f3 0.0%, #151928 50.0%);
+}
+
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent; 
+    -fx-font-weight:bold;
+    -fx-text-fill: white;
+    -fx-font-size:15px;
+}
+
+.table-view .table-column{
+    -fx-alignment:center;
+}
+
+
+.table-view .table-cell{
+    -fx-font-weight:bold;
+    -fx-font-size:13px;           
+    -fx-text-fill:black;
+
+}
+
+.table-row-cell:hover {
+    -fx-background-color:gray;
+}

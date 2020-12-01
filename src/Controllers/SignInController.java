@@ -63,7 +63,7 @@ public class SignInController {
             if (signInPassword.getText().equals(passwordList.get(0))) {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/Views/Event_Screen.fxml"));
+                    fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
 
                     Scene scene = new Scene(fxmlLoader.load());
                     Stage stage = new Stage();
