@@ -11,8 +11,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Predicate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,6 +24,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 
 import tis_fx.EventDAOImpl;
 
@@ -27,6 +32,39 @@ public class Event_ScreenController implements Initializable {
     
     @FXML
     private TableView<Event> tableView;
+    
+    @FXML
+    private TextField search;
+    EventDAOImpl eventDAOImpl = new EventDAOImpl();
+        
+    List<Event> cart = new ArrayList<Event>();
+    List<Event> allEvents = eventDAOImpl.getAllEvents();
+    ObservableList<Event> oListEvents = FXCollections.observableArrayList(allEvents);
+        
+    FilteredList<Event> filter = new FilteredList(oListEvents,e->true);
+    
+    @FXML
+    private void search(KeyEvent event) {
+        search.textProperty().addListener((observable,oldValue,newValue)->{
+   
+            filter.setPredicate((Event events)->{
+                if(newValue.isEmpty() || newValue==null ){
+                    return true;
+                }
+                else if(events.getName().toLowerCase().contains(newValue.toLowerCase()) ||
+                        events.getLocation().toLowerCase().contains(newValue.toLowerCase()) ){
+                    return true;
+                }
+                return false;
+            });
+            
+        });
+        
+        SortedList sort = new SortedList(filter);
+        sort.comparatorProperty().bind(tableView.comparatorProperty());
+        tableView.setItems(sort);
+    }
+    
 
     public void addToChart(List<Event> list,Event e){
         for(Event i : list){
@@ -42,14 +80,8 @@ public class Event_ScreenController implements Initializable {
  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-      
-        EventDAOImpl eventDAOImpl = new EventDAOImpl();
         
-        List<Event> cart = new ArrayList<Event>();
-        List<Event> allEvents = eventDAOImpl.getAllEvents();
-        ObservableList<Event> oListEvents = FXCollections.observableArrayList(allEvents);
-        
-        
+       
         TableColumn nameCol = new TableColumn("Name");
         TableColumn typeCol = new TableColumn("Type");
         TableColumn locationCol = new TableColumn("Location");
@@ -101,11 +133,6 @@ public class Event_ScreenController implements Initializable {
       
         tableView.setItems(oListEvents);
        
-    
-        
         }
-    
-   
-
-    }
+}
 
