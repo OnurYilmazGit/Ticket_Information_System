@@ -25,6 +25,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import java.util.HashMap;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 import tis_fx.EventDAOImpl;
 
@@ -37,8 +42,10 @@ public class Event_ScreenController implements Initializable {
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
         
-    List<Event> cart = new ArrayList<Event>();
+    HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();
+    
     List<Event> allEvents = eventDAOImpl.getAllEvents();
+        
     ObservableList<Event> oListEvents = FXCollections.observableArrayList(allEvents);
         
     FilteredList<Event> filter = new FilteredList(oListEvents,e->true);
@@ -66,20 +73,17 @@ public class Event_ScreenController implements Initializable {
     }
     
 
-    public void addToChart(List<Event> list,Event e){
-        for(Event i : list){
-            if(i.getId() == e.getId()){
-                i.setId(i.getId()+1);
-            }
-            else{
-                list.add(e);
-            }
-        }
+    public void addToCart(int e,int add){
+        cart.put(e,cart.get(e) + add);
     }
 
  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        for (Event iterEvent : allEvents) {
+            cart.put(iterEvent.getId(),0);
+        }
         
        
         TableColumn nameCol = new TableColumn("Name");
@@ -89,7 +93,8 @@ public class Event_ScreenController implements Initializable {
         TableColumn dateCol = new TableColumn("Date");
         TableColumn priceCol = new TableColumn("Price");
         TableColumn availableTicketsCol = new TableColumn("Available Tickets");
-        TableColumn addItem = new TableColumn("Add Item");
+        TableColumn addItem = new TableColumn("Add Event");
+        
         
         
         tableView.getColumns().addAll(nameCol,typeCol,locationCol,startTimeCol,dateCol,priceCol,availableTicketsCol,addItem);
@@ -110,27 +115,51 @@ public class Event_ScreenController implements Initializable {
         //availableTicketsCol.setMaxWidth(400);
         
         addItem.setCellValueFactory(new PropertyValueFactory<>("addButton"));
-        
-        addItem.setCellFactory(param -> new TableCell<Event,Event>(){
-            private final Button addButton = new Button("Add");
        
+   
+        addItem.setCellFactory(param -> new TableCell<Event,Event>(){
             
             @Override
             protected void updateItem(Event eventT,boolean empty) {
                 super.updateItem(eventT, empty);
 
-                setGraphic(addButton);
-                addButton.setOnAction(event -> {
-                    Event getevent = getTableView().getItems().get(getIndex());
-                    addToChart(cart,getevent);
-                    System.out.println("WORKEDD"+getevent.getId());
-                });
-                
+                if(!empty){
+                    HBox pane = new HBox();
+                    Button addButton = new Button("Add");
+                    TextField numberField = new TextField();      
+                    numberField.setMaxWidth(70);
+                    pane.getChildren().addAll(numberField,addButton);
+                    setGraphic(pane);
+
+
+                    addButton.setOnAction(event -> {
+                        Event getevent = getTableView().getItems().get(getIndex());
+
+                        try{
+                            int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
+                            if(numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()){
+                                addToCart(getevent.getId(),numberOfTicketsAdded);
+                                getevent.setAvailableTickets(getevent.getAvailableTickets()-numberOfTicketsAdded);
+                                System.out.println(getevent.getAvailableTickets());
+                            }
+                            else{
+                                throw new Exception("Number should be bigger than 0 or smaller than avilable tickets");
+                            }
+                        }
+                        catch(Exception errorType){
+                            Alert alert = new Alert(AlertType.INFORMATION);
+                            alert.setTitle("Information Dialog");
+                            alert.setHeaderText("Please give proper type for ticket number");
+                            alert.showAndWait();
+                        }
+                    });
+                }
+               
             }  
         });
         
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-      
+        
         tableView.setItems(oListEvents);
        
         }
