@@ -31,6 +31,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import tis_fx.EventDAOImpl;
 /**
  *
  * @author Asena
@@ -42,11 +43,13 @@ public class CartController {
     
     HashMap cart=new HashMap<Integer, Integer>();
     
-    //open the cart page
-    
+    @FXML
+    private TextField search;
+    EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
     //draw the cart
-    public void drawCart (HashMap <Integer, Integer> cart){
+    
+    public void initialize(URL url, ResourceBundle rb){
         //draw the cart
         //columns on the cart view
         TableColumn eventName = new TableColumn("Event");
@@ -94,11 +97,4 @@ public class CartController {
         }  
     });
     }
-    
-    //deletes the given id and returns the new 
-    public HashMap<Integer, Integer> cancelEvent(Integer id, HashMap<Integer,Integer> cartMap){
-        cartMap.remove(id);
-        return cartMap;
-    }
-    
 }
