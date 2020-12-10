@@ -141,7 +141,11 @@ public class Event_ScreenController implements Initializable {
                                 addToCart(getevent.getId(),numberOfTicketsAdded);
                                 getevent.setAvailableTickets(getevent.getAvailableTickets()-numberOfTicketsAdded);
                                 System.out.println(getevent.getAvailableTickets());
-                            }
+                                cart.forEach((key,value)->{
+                                System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
+                                
+                            });
+                        }
                             else{
                                 throw new Exception("Number should be bigger than 0 or smaller than avilable tickets");
                             }
