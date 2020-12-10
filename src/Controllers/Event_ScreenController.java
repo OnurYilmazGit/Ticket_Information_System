@@ -143,7 +143,7 @@ public class Event_ScreenController implements Initializable {
                                 System.out.println(getevent.getAvailableTickets());
                                 cart.forEach((key,value)->{
                                 System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
-                                
+                                System.out.println(" ");
                             });
                         }
                             else{
