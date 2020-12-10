@@ -6,6 +6,7 @@
 package Controllers;
 
 import Models.Event;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,11 +27,19 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import tis_fx.EventDAOImpl;
 
@@ -46,6 +55,28 @@ public class Event_ScreenController implements Initializable {
     @FXML
     private void showCart(MouseEvent e){
         System.out.println("ERROR");
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("CART");
+            stage.setScene(scene);
+            stage.show();
+            ((Node) (e.getSource())).getScene().getWindow().hide();
+             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent e) {
+             System.exit(0);
+            }
+          });
+
+            } 
+        catch (IOException ex) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+            }
     }
         
     HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();
