@@ -28,6 +28,7 @@ import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
@@ -41,6 +42,11 @@ public class Event_ScreenController implements Initializable {
     @FXML
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
+    
+    @FXML
+    private void showCart(MouseEvent e){
+        System.out.println("ERROR");
+    }
         
     HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();
     
