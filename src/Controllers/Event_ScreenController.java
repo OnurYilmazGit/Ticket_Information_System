@@ -51,12 +51,12 @@ public class Event_ScreenController implements Initializable {
     private TableView<Event> tableView;
     
     @FXML
-    private Pane cart_pane;
-    private Parent fxml;
-    
-    @FXML
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
+    
+    @FXML
+    private Pane cart_pane;
+    private Parent fxml;
     
     @FXML
     private void showCart(MouseEvent e){
@@ -65,8 +65,9 @@ public class Event_ScreenController implements Initializable {
             fxml = FXMLLoader.load(getClass().getResource("/Views/Cart.fxml"));
             cart_pane.getChildren().removeAll();
             cart_pane.getChildren().setAll(fxml);
-        } catch (IOException ex) {
-            Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException exc) {
+            Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE,"Hata var", exc);
         }
         
    /*     try {
