@@ -32,11 +32,13 @@ import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -49,6 +51,10 @@ public class Event_ScreenController implements Initializable {
     private TableView<Event> tableView;
     
     @FXML
+    private Pane cart_pane;
+    private Parent fxml;
+    
+    @FXML
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
@@ -56,6 +62,14 @@ public class Event_ScreenController implements Initializable {
     private void showCart(MouseEvent e){
         System.out.println("ERROR");
         try {
+            fxml = FXMLLoader.load(getClass().getResource("/Views/Cart.fxml"));
+            cart_pane.getChildren().removeAll();
+            cart_pane.getChildren().setAll(fxml);
+        } catch (IOException ex) {
+            Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+   /*     try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
 
@@ -76,7 +90,7 @@ public class Event_ScreenController implements Initializable {
         catch (IOException ex) {
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
-            }
+            } */
     }
         
     HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();
