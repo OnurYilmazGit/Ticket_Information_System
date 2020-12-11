@@ -45,7 +45,7 @@ import tis_fx.EventDAOImpl;
  *
  * @author Asena
  */
-public class CartController {
+public class CartController implements Initializable{
     
     @FXML
     private Button buttonApprove;
@@ -54,7 +54,7 @@ public class CartController {
     private void approved(MouseEvent e)   {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/Views/Event_Screen.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             scene.setFill(Color.TRANSPARENT);
@@ -78,11 +78,11 @@ public class CartController {
     HashMap cart=new HashMap<Integer, Integer>();
     
     @FXML
-    private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
     //draw the cart
     
+    @Override
     public void initialize(URL url, ResourceBundle rb){
         //draw the cart
         //columns on the cart view
