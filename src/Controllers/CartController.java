@@ -50,7 +50,7 @@ public class CartController {
     @FXML
     private Button buttonApprove;
     
-   /* @FXML
+    @FXML
     private void approved(MouseEvent e)   {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -69,7 +69,7 @@ public class CartController {
         }
 
     } 
-    */
+    
     
     
     @FXML

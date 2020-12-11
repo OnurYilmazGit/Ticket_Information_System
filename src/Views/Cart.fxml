@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="blue-panel" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="blue-panel" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CartController">
    <children>
       <TableView prefHeight="335.0" prefWidth="600.0" stylesheets="@../tis_fx/styles.css" />
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="buttonApprove" mnemonicParsing="false" styleClass="blue-btn" stylesheets="@../tis_fx/styles.css" text="APPROVE">
+                  <Button fx:id="buttonApprove" mnemonicParsing="false" onMouseClicked="#approved" styleClass="blue-btn" stylesheets="@../tis_fx/styles.css" text="APPROVE">
                      <font>
                         <Font size="13.0" />
                      </font>
