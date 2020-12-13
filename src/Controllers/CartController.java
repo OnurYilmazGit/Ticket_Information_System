@@ -27,6 +27,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -34,6 +35,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -45,7 +47,7 @@ import tis_fx.EventDAOImpl;
  *
  * @author Asena
  */
-public class CartController implements Initializable{
+public class CartController extends Event_ScreenController implements Initializable{
     
     @FXML
     private Button buttonApprove;
@@ -70,42 +72,54 @@ public class CartController implements Initializable{
 
     } 
     
-    
-    
     @FXML
     private TableView<Event> CartView;
-    
-    HashMap cart=new HashMap<Integer, Integer>();
+  //  HashMap cart=new HashMap<Integer, Integer>();
     
     @FXML
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
-    //draw the cart
-    
+   
+   public void TryMethod(int a){
+       System.out.println("try method:"+a);
+   }
+   
+   ObservableList<Event> oListCart;
+   
     @Override
     public void initialize(URL url, ResourceBundle rb){
         //draw the cart
         //columns on the cart view
+        System.out.println("initializable in cart");
+        
+        
         TableColumn eventName = new TableColumn("Event");
         TableColumn numTickets = new TableColumn("Number of Tickets");
-        TableColumn cancelEvent = new TableColumn("");
+        TableColumn cancelEvent = new TableColumn("Cancel Event");
         
         CartView.getColumns().addAll(eventName, numTickets, cancelEvent);
         
         //prpperty value factories
         eventName.setCellValueFactory(new PropertyValueFactory<Event,String>("eventName"));
-        numTickets.setCellValueFactory(new PropertyValueFactory<Event,String>("numTickets"));
+        numTickets.setCellValueFactory(new PropertyValueFactory<Event,Integer>("numTickets"));
         cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
+        
+        //print the cart but the cart is full, why
+        System.out.println("THE CART IS:"+cart.get(1));
+        cart.forEach((key,value)->{
+            System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
+            System.out.println(" ");
+            oListCart.add(value, allEvents.get(key));
+        });
         
         //add cancelEvent buttons for each event in the cart
         cancelEvent.setCellFactory(param -> new TableCell<Event,Event>(){
             protected void cancelEvent(Event eventT) {
                 HBox pane = new HBox();
-                Button cancelButton = new Button("Cancel");
-                TextField numberField = new TextField(); //delete dis what even is dis     
+                Button cancelButton = new Button("Cancel");    
                 pane.getChildren().addAll(cancelButton);
                 setGraphic(pane);
-
+                
                 cancelButton.setOnAction(event -> {
                 Event getevent = getTableView().getItems().get(getIndex());
 
@@ -130,5 +144,8 @@ public class CartController implements Initializable{
                
         }  
     });
+        
+        CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        CartView.setItems(oListCart);
     }
 }
