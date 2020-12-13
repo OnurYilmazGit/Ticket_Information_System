@@ -87,7 +87,12 @@ public class Event_ScreenController implements Initializable {
             } 
     }
         
-    HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();
+    public static HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();
+    
+    public static HashMap<Integer,Integer> getCartMap(){
+        return Event_ScreenController.cart;
+    }
+    
     
     List<Event> allEvents = eventDAOImpl.getAllEvents();
         
