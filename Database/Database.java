@@ -18,3 +18,30 @@ public class Database {
             System.out.println("Problem!");
         }
     }
+    
+    protected static void events(int i) throws SQLException { }
+
+        public static void main (String[]args) throws SQLException{
+            Database ex = new Database();
+            ex.init();
+            System.out.println("1. Add User\n");
+            System.out.print("Please choose any number from list: ");
+            Scanner anything = new Scanner(System.in);
+            int i = anything.nextInt();
+            System.out.println("Number entered is : " + i);
+
+            if (i >= 1 && i <= 4) {
+                events(i);
+            } else
+                System.out.print("Please enter number between 1 and 12");
+            int s = anything.nextInt();
+            while ((s >= 1 && s <= 4) == false) {
+                System.out.print("Please enter number between 1 and 12");
+                int b = anything.nextInt();
+                s = b;
+                if (s >= 1 && s <= 4) {
+                    events(s);
+                }
+            }
+    }
+}
