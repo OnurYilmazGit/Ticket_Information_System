@@ -28,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXMLLoader;
@@ -97,9 +98,7 @@ public class CartController extends Event_ScreenController implements Initializa
         
         CartView.getColumns().addAll(eventName, numTickets, cancelEvent);
         
-        //prpperty value factories
-        eventName.setCellValueFactory(new PropertyValueFactory<Event,String>("name"));
-        numTickets.setCellValueFactory(new PropertyValueFactory<Event,Integer>("numTickets"));
+       
         
         //print the cart but the cart is null, why
         HashMap <Integer,Integer> subCart=getCartMap();
@@ -123,9 +122,36 @@ public class CartController extends Event_ScreenController implements Initializa
             System.out.println("");
         }
         
+    //prpperty value factories
+    eventName.setCellValueFactory(new PropertyValueFactory<Event,String>("name"));
+    numTickets.setCellValueFactory(new PropertyValueFactory <>("numTicks"));
+    cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
+    
+    //set numTickets
+   /* numTickets.setCellFactory(param-> new TableCell (){
+   
+        subCart.get(e)
+            
+            HBox pane = new HBox();
+            
+            for(int i=0;i<oListSelected.size();i++){
+                for(int j=0;j<subCart.size();j++){
+                    if(subCart.keySet().contains(oListSelected.get(i).getId())){
+                        numTicks=(subCart.get(j);
+                    }
+                }
+            }
+            pane.getChildren().addAll(numTicks);
+            setGraphic(pane);
+        }
+    });*/
     //add cancelEvent buttons for each event in the cart
     cancelEvent.setCellFactory(param -> new TableCell<Event,Event>(){
-            protected void cancelEvent(Event eventT) {
+            @Override
+            protected void updateItem(Event eventT,boolean empty) {
+                
+                super.updateItem(eventT, empty);
+
                 HBox pane = new HBox();
                 Button cancelButton = new Button("Cancel");    
                 pane.getChildren().addAll(cancelButton);
