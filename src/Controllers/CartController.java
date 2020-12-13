@@ -78,11 +78,6 @@ public class CartController extends Event_ScreenController implements Initializa
     
     @FXML
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
-    
-   
-   public void TryMethod(int a){
-       System.out.println("try method:"+a);
-   }
    
    ObservableList<Event> oListCart;
    
@@ -104,7 +99,7 @@ public class CartController extends Event_ScreenController implements Initializa
         numTickets.setCellValueFactory(new PropertyValueFactory<Event,Integer>("numTickets"));
         cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
         
-        //print the cart but the cart is full, why
+        //print the cart but the cart is null, why
         System.out.println("THE CART IS:"+cart.get(1));
         cart.forEach((key,value)->{
             System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
