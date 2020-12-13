@@ -37,6 +37,7 @@ public class Event {
     private double price;
     @Column (name = "available_tickets")
     private int availableTickets;
+    
 
     public Event() {
     }
