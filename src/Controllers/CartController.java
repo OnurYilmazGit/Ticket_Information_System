@@ -81,8 +81,8 @@ public class CartController extends Event_ScreenController implements Initializa
     
     @FXML
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
-   
-   ObservableList<Event> oListCart;
+    ArrayList<Event> selectedEvents =new ArrayList <Event> ();
+    List<Event> allEvents = eventDAOImpl.getAllEvents();
    
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -103,15 +103,28 @@ public class CartController extends Event_ScreenController implements Initializa
         cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
         
         //print the cart but the cart is null, why
-        System.out.println("THE CART IS:"+cart.get(1));
         cart.forEach((key,value)->{
             System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
             System.out.println(" ");
-            oListCart.add(value, allEvents.get(key));
-        });
+                        if(cart.get(key)>0){
+                for(int i=0;i<allEvents.size();i++){
+                    if(allEvents.get(i).getId()==key){
+                        selectedEvents.add(allEvents.get(i));
+                        System.out.println("item selected");
+                    }else{
+                        System.out.println("item not selected");
+                    }
+                }
+            }});
+        ObservableList<Event> oListSelected = FXCollections.observableArrayList(selectedEvents);
+        System.out.println("oList:");
+        for(int i=0; i<oListSelected.size();i++){
+            System.out.println("item"+i+ " ="+oListSelected.get(i).getName());
+            System.out.println("");
+        }
         
-        //add cancelEvent buttons for each event in the cart
-        cancelEvent.setCellFactory(param -> new TableCell<Event,Event>(){
+    //add cancelEvent buttons for each event in the cart
+    cancelEvent.setCellFactory(param -> new TableCell<Event,Event>(){
             protected void cancelEvent(Event eventT) {
                 HBox pane = new HBox();
                 Button cancelButton = new Button("Cancel");    
@@ -142,8 +155,8 @@ public class CartController extends Event_ScreenController implements Initializa
                
         }  
     });
-        
-        CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        CartView.setItems(oListCart);
+    System.out.println("hello");    
+    CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+    CartView.setItems(oListSelected);
     }
 }
