@@ -19,7 +19,34 @@ public class Database {
         }
     }
     
-    protected static void events(int i) throws SQLException { }
+    protected static void events(int i) throws SQLException {
+        Scanner input = new Scanner(System.in);
+        Statement stmt = conn.createStatement();
+
+        String[] args;
+        if (i == 1) {
+            System.out.print("Please enter Valid UserName: ");
+            String name_of_user = input.nextLine().toLowerCase().trim();
+            System.out.print("Please enter a Password ");
+            String user_password = input.nextLine();
+            String sql = "INSERT INTO user (`user_name`, `user_pass`) VALUES ('" + name_of_user + "','" + user_password + "')";
+            try {
+                int number_row = stmt.executeUpdate(sql);
+                if (number_row > 0) {
+                    System.out.println(number_row + " row(s) affected!");
+                    System.out.println("User successfully added to Database");
+                }
+            } catch (SQLException throwables) {
+                System.out.println("There is a such user in database. Plese try again");
+            }
+            System.out.println("-> To see main list again please enter 1 or enter random number to exit.");
+            int number = input.nextInt();
+            if (number == 1) {
+                args = new String[0];
+                main(args);
+            }
+        }        
+    }
 
         public static void main (String[]args) throws SQLException{
             Database ex = new Database();
