@@ -60,7 +60,7 @@ public class Event_ScreenController implements Initializable {
     
     @FXML
     private void showCart(MouseEvent e){
-        System.out.println("ERROR");
+    /*    System.out.println("ERROR");
         try {
             fxml = FXMLLoader.load(getClass().getResource("/Views/Cart.fxml"));
             cart_pane.getChildren().removeAll();
@@ -69,8 +69,8 @@ public class Event_ScreenController implements Initializable {
         catch (IOException exc) {
             Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE,"Hata var", exc);
         }
-        
-   /*     try {
+    */    
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
 
@@ -79,19 +79,12 @@ public class Event_ScreenController implements Initializable {
             stage.setTitle("CART");
             stage.setScene(scene);
             stage.show();
-            ((Node) (e.getSource())).getScene().getWindow().hide();
-             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent e) {
-             System.exit(0);
-            }
-          });
 
             } 
         catch (IOException ex) {
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
-            } */
+            } 
     }
         
     HashMap<Integer,Integer> cart = new HashMap<Integer, Integer>();

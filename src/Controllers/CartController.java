@@ -54,7 +54,7 @@ public class CartController extends Event_ScreenController implements Initializa
     
     @FXML
     private void approved(MouseEvent e)   {
-        try {
+    /*    try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
@@ -68,7 +68,10 @@ public class CartController extends Event_ScreenController implements Initializa
         catch (IOException ex) {
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", ex);
-        }
+        }*/
+        final Node source=(Node) e.getSource();
+        final Stage stage=(Stage) source.getScene().getWindow();
+        stage.close();
 
     } 
     
