@@ -7,13 +7,9 @@ package tis_fx;
 
 import DAOs.UserDAO;
 import Models.User;
-import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import sun.security.util.Password;
 
 /**
  *

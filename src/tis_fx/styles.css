@@ -56,6 +56,12 @@ and open the template in the editor.
     -fx-border-width: 0px;
 }*/
 
+.search-box{
+    -fx-background-color: #151928;
+    -fx-background-radius: 5px;
+    -fx-text-fill: #ffffff;
+    
+}
 
 .table-view{
     -fx-background-color: transparent;
