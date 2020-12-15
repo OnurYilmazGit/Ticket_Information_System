@@ -18,7 +18,7 @@ public class Database {
             System.out.println("Problem!");
         }
     }
-    
+
     protected static void events(int i) throws SQLException {
         Scanner input = new Scanner(System.in);
         Statement stmt = conn.createStatement();
@@ -45,8 +45,8 @@ public class Database {
                 args = new String[0];
                 main(args);
             }
-        }        
-            else if( i == 2) {
+        }
+        else if( i == 2) {
             System.out.print("Please enter your UserName: ");
             String name_of_user = input.nextLine();
             System.out.print("Please enter a Password ");
@@ -64,30 +64,53 @@ public class Database {
                 args = new String[0];
                 main(args);
             }
-        }    
+        }
+        else if( i == 3){
+            System.out.println("List of Whole Events: \n");
+            String sql = "SELECT * FROM main_page";
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String event_name = rs.getString("event_name");
+                String event_type = rs.getString("event_type");
+                String location = rs.getString("location");
+                String start_time = rs.getString("start_time");
+                String date = rs.getString("date");
+                double price = rs.getDouble("price");
+                int available_ticket = rs.getInt("available ticket");
+
+                System.out.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\n", "Event Name: " + event_name, "Event Type: " + event_type, "Location: " + location, "Start time : " + start_time,
+                        "Date: " + date, "Price: " + price, "available_ticket:" + available_ticket);
+            }
+            System.out.println("-> To see main list again please enter 1");
+            int number = input.nextInt();
+            if (number == 1) {
+                args = new String[0];
+                main(args);
+            } else
+                events(12);
+        }
     }
-    
-    
+
 
         public static void main (String[]args) throws SQLException{
             Database ex = new Database();
             ex.init();
-            System.out.println("1. Add User\n2. Login User\n3");
+            System.out.println("1. Add User\n2. Login User\n3. Show Main Page");
             System.out.print("Please choose any number from list: ");
             Scanner anything = new Scanner(System.in);
             int i = anything.nextInt();
             System.out.println("Number entered is : " + i);
 
-            if (i >= 1 && i <= 4) {
+            if (i >= 1 && i <= 12) {
                 events(i);
             } else
-                System.out.print("Please enter number between 1 and 4");
+                System.out.print("Please enter number between 1 and 12");
             int s = anything.nextInt();
-            while ((s >= 1 && s <= 4) == false) {
-                System.out.print("Please enter number between 1 and 4");
+            while ((s >= 1 && s <= 12) == false) {
+                System.out.print("Please enter number between 1 and 12");
                 int b = anything.nextInt();
                 s = b;
-                if (s >= 1 && s <= 4) {
+                if (s >= 1 && s <= 12) {
                     events(s);
                 }
             }
