@@ -6,6 +6,7 @@
 package Models;
 
 import java.util.Date;
+import java.util.HashMap;
 import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -37,6 +38,8 @@ public class Event {
     private double price;
     @Column (name = "available_tickets")
     private int availableTickets;
+  
+    private int selectedNum;
     
 
     public Event() {
@@ -51,6 +54,7 @@ public class Event {
         this.date = date;
         this.price = price;
         this.availableTickets = availableTickets;
+        this.selectedNum=0;
     }
 
     public int getId() {
@@ -116,9 +120,13 @@ public class Event {
     public void setAvailableTickets(int availableTickets) {
         this.availableTickets = availableTickets;
     }
-    
-    
-    
+   
+    public void setSelectedNum(int numSelected){
+        this.selectedNum=numSelected;
+    }
+     public int getSelectedNum(){
+         return this.selectedNum;
+    }
     
     
 }

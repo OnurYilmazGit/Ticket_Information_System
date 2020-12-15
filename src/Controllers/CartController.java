@@ -108,6 +108,7 @@ public class CartController extends Event_ScreenController implements Initializa
                         if(subCart.get(key)>0){
                 for(int i=0;i<allEvents.size();i++){
                     if(allEvents.get(i).getId()==key){
+                        allEvents.get(i).setSelectedNum(subCart.get(key));
                         selectedEvents.add(allEvents.get(i));
                         System.out.println("item selected");
                     }else{
@@ -124,7 +125,7 @@ public class CartController extends Event_ScreenController implements Initializa
         
     //prpperty value factories
     eventName.setCellValueFactory(new PropertyValueFactory<Event,String>("name"));
-    numTickets.setCellValueFactory(new PropertyValueFactory <>("numTicks"));
+    numTickets.setCellValueFactory(new PropertyValueFactory <>("selectedNum"));
     cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
     
     //set numTickets
@@ -153,7 +154,7 @@ public class CartController extends Event_ScreenController implements Initializa
                 super.updateItem(eventT, empty);
 
                 HBox pane = new HBox();
-                Button cancelButton = new Button("Cancel");    
+                Button cancelButton = new Button("Cancel");
                 pane.getChildren().addAll(cancelButton);
                 setGraphic(pane);
                 
