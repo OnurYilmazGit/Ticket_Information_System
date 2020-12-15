@@ -86,8 +86,7 @@ public class Database {
             if (number == 1) {
                 args = new String[0];
                 main(args);
-            } else
-                events(12);
+            }
         }
     }
 
@@ -101,16 +100,16 @@ public class Database {
             int i = anything.nextInt();
             System.out.println("Number entered is : " + i);
 
-            if (i >= 1 && i <= 12) {
+            if (i >= 1 && i <= 3) {
                 events(i);
             } else
-                System.out.print("Please enter number between 1 and 12");
+                System.out.print("Please enter number between 1 and 3");
             int s = anything.nextInt();
-            while ((s >= 1 && s <= 12) == false) {
-                System.out.print("Please enter number between 1 and 12");
+            while ((s >= 1 && s <= 3) == false) {
+                System.out.print("Please enter number between 1 and 3");
                 int b = anything.nextInt();
                 s = b;
-                if (s >= 1 && s <= 12) {
+                if (s >= 1 && s <= 3) {
                     events(s);
                 }
             }
