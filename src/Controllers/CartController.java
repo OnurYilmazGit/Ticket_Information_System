@@ -145,34 +145,33 @@ public class CartController extends Event_ScreenController implements Initializa
             protected void updateItem(Event eventT,boolean empty) {
                 
                 super.updateItem(eventT, empty);
-                if(!empty){
-                    HBox subPane = new HBox();
-                    Button cancelButton = new Button("Cancel");
-                    subPane.getChildren().addAll(cancelButton);
-                    setGraphic(subPane);
 
-                    cancelButton.setOnAction(event -> {
-                    Event getevent = getTableView().getItems().get(getIndex());
+                HBox pane = new HBox();
+                Button cancelButton = new Button("Cancel");
+                pane.getChildren().addAll(cancelButton);
+                setGraphic(pane);
+                
+                cancelButton.setOnAction(event -> {
+                Event getevent = getTableView().getItems().get(getIndex());
 
-                        try{
-                            subCart.remove(getevent.getId());
-                            System.out.println("removed:"+getevent.getId());
-                            //print the subCart so that we can see
-                            subCart.forEach((key,value)->{
-                            System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
-                            System.out.println(" ");
-                            });
-                            //renew itself since an event is removed
-                        }
-                        catch(Exception errorType){
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            alert.setTitle("Information Dialog");
-                            alert.setHeaderText("Error");
-                            alert.showAndWait();
-                        }
-
+                try{
+                    subCart.remove(getevent.getId());
+                    System.out.println("removed:"+getevent.getId());
+                    //print the subCart so that we can see
+                    subCart.forEach((key,value)->{
+                    System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
+                    System.out.println(" ");
                     });
-                }     
+                    //renew itself since an event is removed
+                }
+                catch(Exception errorType){
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Information Dialog");
+                    alert.setHeaderText("Error");
+                    alert.showAndWait();
+                }
+            });
+                
                
         }  
     });
