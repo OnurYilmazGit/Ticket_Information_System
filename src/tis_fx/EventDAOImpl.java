@@ -36,12 +36,12 @@ public class EventDAOImpl implements EventDAO{
         }
        return events;
     }
-    public Event getReservedEventsInfo(int id) {
+    public List<Event> getReservedEventsInfo(int id) {
        List<Event> events = null;
        try {
             session.beginTransaction();
             //events = session.createSQLQuery("SELECT event_name, event_type, location, start_time, date FROM events WHERE event_id='" + id + "'").getResultList();
-            events = session.createQuery("FROM Event E WHERE E.id='" + id + "'").getResultList();
+            events = session.createQuery("FROM Event E WHERE  E.id='" + id + "'").getResultList();
             System.out.println("Test test:" +events.get(0).getName());
         } catch (HibernateException e) {
             if (session.getTransaction() != null) {
@@ -51,7 +51,7 @@ public class EventDAOImpl implements EventDAO{
         } finally {
              session.getTransaction().commit();
         }
-       return events.get(0);
+       return events;
     }
     
 }

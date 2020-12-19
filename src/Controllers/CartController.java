@@ -65,12 +65,12 @@ public class CartController extends Event_ScreenController implements Initializa
     ArrayList<Event> selectedEvents =new ArrayList <Event> ();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
     ReservationDAOImpl dAOImpl = new ReservationDAOImpl();
-    
+    @FXML
     private void approved(MouseEvent e)   {
-        /*for(Event ev:selectedEvents){
+        for(Event ev:selectedEvents){
             Reservation res = new Reservation(UserName.getInstance().getUser(), ev.getId());
             dAOImpl.insertReservation(res);
-        }*/
+        }
         final Node source=(Node) e.getSource();
         final Stage stage=(Stage) source.getScene().getWindow();
         stage.close();

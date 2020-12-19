@@ -28,12 +28,6 @@ import tis_fx.EventDAOImpl;
 import tis_fx.ReservationDAOImpl;
 import tis_fx.UserName;
 
-
-/**
- * FXML Controller class
- *
- * @author HP
- */
 public class MyReservationPageController implements Initializable {
 
     @FXML
@@ -43,20 +37,27 @@ public class MyReservationPageController implements Initializable {
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
     List<Integer> reservedEvents = reservationDAOImpl.getReservedEvents(UserName.getInstance().getUser());
-    ArrayList<Event> reservedEventsInfo = new ArrayList<Event>();
+    List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        eventDAOImpl.getReservedEventsInfo(1);
+        //eventDAOImpl.getReservedEventsInfo(1);
         
         System.out.println("Reserved events size: " + reservedEvents.size()); 
-        int size_=reservedEvents.size();
-        for(int i=0;i<size_;i++){
-               Event e = eventDAOImpl.getReservedEventsInfo(i);
-               System.out.println(e.getName()+"-"+ e.getType()+"-"+e.getStarTime());
-            }
+
+        
+        for(int i : reservedEvents){
+            System.out.println("index:"+i);
+            reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i); 
+            System.out.println(reservedEventsInfo.get(0).getName()+"-"+ reservedEventsInfo.get(0).getType()+"-"+reservedEventsInfo.get(0).getStarTime());
+            tableView.getItems().add(reservedEventsInfo.get(0));
+            
+        }
+        
+       // reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(7);
     
-     
+       // System.out.println(reservedEventsInfo.get(0).getName()+"-"+ reservedEventsInfo.get(0).getType()+"-"+reservedEventsInfo.get(0).getStarTime());
         
         /*
         for(Event e : reservedEventsInfo){
@@ -64,7 +65,7 @@ public class MyReservationPageController implements Initializable {
             
         }
         */
-       // ObservableList<Event> oListEvents = FXCollections.observableArrayList(reservedEventsInfo);
+        //ObservableList<Event> oListEvents = FXCollections.observableArrayList(tmpList);
 
     //    System.out.println(reservedEventsInfo.get(0).getName());
         System.out.println("Test Test Test : "+reservedEvents.get(0));
@@ -90,7 +91,7 @@ public class MyReservationPageController implements Initializable {
         
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);  
                 
-      // tableView.setItems(oListEvents);    
+       //tableView.setItems(oListEvents);    
     }    
     
 }

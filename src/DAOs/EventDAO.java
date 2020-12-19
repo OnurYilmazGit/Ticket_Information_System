@@ -14,6 +14,6 @@ import java.util.List;
  */
 public interface EventDAO {
     public List<Event> getAllEvents();
-    public Event getReservedEventsInfo(int id);
+    public List<Event> getReservedEventsInfo(int id);
     
 }
