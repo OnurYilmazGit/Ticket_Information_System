@@ -6,14 +6,14 @@
 package DAOs;
 
 import Models.Event;
+import Models.Reservation;
 import java.util.List;
 
 /**
  *
- * @author HP
+ * @author ecemy
  */
-public interface EventDAO {
-    public List<Event> getAllEvents();
-    public Event getReservedEventsInfo(int id);
-    
+public interface ReservationDAO {
+    public List<Reservation> getReservedEvents();
+    public Reservation insertReservation(Reservation r);
 }

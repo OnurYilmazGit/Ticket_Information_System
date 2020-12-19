@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
@@ -67,7 +68,7 @@ public class Main_PageController implements Initializable {
                                 goToMainPage(e);
                                 break;
                             case "my_resarvations":
-                                goToResarvationPage(e);
+                                goToReservationPage(e);
                                 break;
                             case "log_out":
                                 log_out(e);
@@ -95,9 +96,9 @@ public class Main_PageController implements Initializable {
 
     }
 
-    private void goToResarvationPage(MouseEvent e) {
+    private void goToReservationPage(MouseEvent e) {
         try {
-            fxml = FXMLLoader.load(getClass().getResource("/Views/MyResarvationPage.fxml"));
+            fxml = FXMLLoader.load(getClass().getResource("/Views/MyReservationPage.fxml"));
             main_pane.getChildren().removeAll();
             main_pane.getChildren().setAll(fxml);
         } catch (IOException ex) {

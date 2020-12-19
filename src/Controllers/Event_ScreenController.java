@@ -8,11 +8,9 @@ package Controllers;
 import Models.Event;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -29,27 +27,26 @@ import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import tis_fx.EventDAOImpl;
+import tis_fx.UserName;
 
 public class Event_ScreenController implements Initializable {
 
     @FXML
     private TableView<Event> tableView;
-
+    @FXML
+    private Label welcomeLabel;
     @FXML
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
@@ -125,6 +122,8 @@ public class Event_ScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        welcomeLabel.setText(UserName.getInstance().getUser());
 
         for (Event iterEvent : allEvents) {
             cart.put(iterEvent.getId(), 0);

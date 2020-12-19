@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1015.0" styleClass="pane" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MyReservationPageController">
+   <children>
+      <TableView fx:id="tableView" layoutX="66.0" layoutY="28.0" prefHeight="651.0" prefWidth="891.0" />
+   </children>
+</AnchorPane>

@@ -29,6 +29,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tis_fx.UserDAOImpl;
+import tis_fx.UserName;
 
 /**
  *
@@ -54,6 +55,7 @@ public class SignUpController {
         UserDAOImpl dAOImpl = new UserDAOImpl();
         List<User> userList = dAOImpl.getAllUsers();
         boolean isMatched = false;
+        UserName.getInstance().setUser(signUpName.getText());
 
         if (studentCheckBox.isSelected()) {
 
@@ -83,7 +85,7 @@ public class SignUpController {
             }
 
         } else {
-            showErrorMessage("This username has already taken, please write another username and password!");
+            showErrorMessage("This username is already taken, please choose another username and password!");
             signUpName.setText("");
             signUpPassword.setText("");
         }

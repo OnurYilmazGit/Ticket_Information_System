@@ -6,6 +6,7 @@
 package Controllers;
 
 import Models.Event;
+import Models.Reservation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tis_fx.EventDAOImpl;
+import tis_fx.ReservationDAOImpl;
+import tis_fx.UserName;
 /**
  *
  * @author Asena
@@ -52,30 +55,7 @@ public class CartController extends Event_ScreenController implements Initializa
     
     @FXML
     private Button buttonApprove;
-    
-    @FXML
-    private void approved(MouseEvent e)   {
-    /*    try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            scene.setFill(Color.TRANSPARENT);
-            stage.initStyle(StageStyle.TRANSPARENT);
-            stage.setScene(scene);
-            stage.show();
-            ((Node) (e.getSource())).getScene().getWindow().hide();
-        } 
-        catch (IOException ex) {
-            Logger logger = Logger.getLogger(getClass().getName());
-            logger.log(Level.SEVERE, "Failed to create new Window.", ex);
-        }*/
-        final Node source=(Node) e.getSource();
-        final Stage stage=(Stage) source.getScene().getWindow();
-        stage.close();
-
-    } 
-    
+   
     @FXML
     private TableView<Event> CartView;
   //  HashMap cart=new HashMap<Integer, Integer>();
@@ -84,6 +64,18 @@ public class CartController extends Event_ScreenController implements Initializa
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     ArrayList<Event> selectedEvents =new ArrayList <Event> ();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
+    ReservationDAOImpl dAOImpl = new ReservationDAOImpl();
+    
+    private void approved(MouseEvent e)   {
+        /*for(Event ev:selectedEvents){
+            Reservation res = new Reservation(UserName.getInstance().getUser(), ev.getId());
+            dAOImpl.insertReservation(res);
+        }*/
+        final Node source=(Node) e.getSource();
+        final Stage stage=(Stage) source.getScene().getWindow();
+        stage.close();
+
+    } 
    
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -97,6 +89,7 @@ public class CartController extends Event_ScreenController implements Initializa
         TableColumn cancelEvent = new TableColumn("Cancel Event");
         
         CartView.getColumns().addAll(eventName, numTickets, cancelEvent);
+        
         
        
         

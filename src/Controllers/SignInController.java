@@ -23,6 +23,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import tis_fx.UserDAOImpl;
+import tis_fx.UserName;
 
 /**
  *
@@ -34,7 +35,7 @@ public class SignInController {
     private Button buttonSignIn;
 
     @FXML
-    private TextField signInUsername;
+    public TextField signInUsername;
 
     @FXML
     private PasswordField signInPassword;
@@ -44,6 +45,7 @@ public class SignInController {
         UserDAOImpl dAOImpl = new UserDAOImpl();
         List<User> userList = dAOImpl.getAllUsers();
         List<String> passwordList = Collections.EMPTY_LIST;
+        UserName.getInstance().setUser(signInUsername.getText());
 
         // System.out.println("Password: " + passwordList.get(0));
         boolean flag = false;
@@ -64,10 +66,10 @@ public class SignInController {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
-
                     Scene scene = new Scene(fxmlLoader.load());
                     Stage stage = new Stage();
                     stage.setTitle("Event Screen");
+                    
                     stage.setScene(scene);
                     stage.show();
                     ((Node) (event.getSource())).getScene().getWindow().hide();
@@ -82,7 +84,7 @@ public class SignInController {
         } else {
             showErrorMessage("Your username or password is wrong, please write again!");
         }
-
+        
         signInUsername.setText("");
         signInPassword.setText("");
 

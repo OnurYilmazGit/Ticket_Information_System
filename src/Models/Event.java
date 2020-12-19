@@ -11,10 +11,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-/**
- *
- * @author HP
- */
+
 @Entity
 @Table(name = "events")
 public class Event {

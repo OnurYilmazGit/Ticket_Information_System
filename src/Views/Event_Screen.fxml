@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1015.0" styleClass="pane" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Event_ScreenController">
    <children>
@@ -14,5 +16,10 @@
       <TextField fx:id="search" layoutX="225.0" layoutY="79.0" onKeyReleased="#search" prefHeight="25.0" prefWidth="492.0" styleClass="search-box" />
       <FontAwesomeIconView glyphName="SHOPPING_CART" layoutX="900.0" layoutY="55.0" onMouseClicked="#showCart" size="36" />
       <FontAwesomeIconView glyphName="SEARCH" layoutX="740.0" layoutY="100.0" size="24" wrappingWidth="22.285715103149414" />
+      <Label fx:id="welcomeLabel" layoutX="805.0" layoutY="31.0" text="Label" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
