@@ -120,6 +120,8 @@ public class Event_ScreenController implements Initializable {
         cart.put(e, cart.get(e) + add);
     }
 
+    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         
@@ -190,13 +192,22 @@ public class Event_ScreenController implements Initializable {
                                 });
                             }else if (numberOfTicketsAdded>10){
                                 showDialog("You can book up to 10 tickets!");
-                                
+                                numberField.setText("");
                             } 
-                            else {
-                                throw new Exception("Number should be bigger than 0 or smaller than avilable tickets");
+                            else if(numberOfTicketsAdded>getevent.getAvailableTickets()){
+                                showDialog("There aren't enough tickets for this reservation.");
+                                numberField.setText("");
                             }
+                            else if(numberOfTicketsAdded==0){
+                                showDialog("Please provide a ticket number to make a reservation");
+                                numberField.setText("");
+                            }
+                            else{                                
+                                throw new Exception();
+                            }
+                            
                         } catch (Exception errorType) {
-                             showDialog("Please give proper type for ticket number");
+                             showDialog("Please provide a numeric ticket number between 1 and 10!");
                              numberField.setText("");
                         }
                     });
