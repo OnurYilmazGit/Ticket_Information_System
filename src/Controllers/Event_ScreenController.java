@@ -165,8 +165,10 @@ public class Event_ScreenController implements Initializable {
 
                 if (!empty) {
                     HBox pane = new HBox();
-                    Button addButton = new Button("Add");
+                    Button addButton = new Button("Add");                   
                     TextField numberField = new TextField();
+                    numberField.setPromptText("max.10");
+                    numberField.setFocusTraversable(false); 
                     numberField.setMaxWidth(70);
                     pane.getChildren().addAll(numberField, addButton);
                     setGraphic(pane);
@@ -176,7 +178,7 @@ public class Event_ScreenController implements Initializable {
 
                         try {
                             int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
-                            if (numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
+                            if (numberOfTicketsAdded<=10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
                                 addToCart(getevent.getId(), numberOfTicketsAdded);
                                 getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
                                 System.out.println(getevent.getAvailableTickets());
@@ -186,11 +188,15 @@ public class Event_ScreenController implements Initializable {
                                     System.out.println(" ");
                                     numberField.setText("");
                                 });
-                            } else {
+                            }else if (numberOfTicketsAdded>10){
+                                showDialog("You can book up to 10 tickets!");
+                                
+                            } 
+                            else {
                                 throw new Exception("Number should be bigger than 0 or smaller than avilable tickets");
                             }
                         } catch (Exception errorType) {
-                            showDialog("Please give proper type for ticket number");
+                             showDialog("Please give proper type for ticket number");
                              numberField.setText("");
                         }
                     });
