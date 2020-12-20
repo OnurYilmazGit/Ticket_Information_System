@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,8 +38,9 @@ public class MyReservationPageController implements Initializable {
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
     List<Integer> reservedEvents = reservationDAOImpl.getReservedEvents(UserName.getInstance().getUser());
+    List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
     List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
-    
+    List<Event> newList = Collections.EMPTY_LIST;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -47,13 +49,13 @@ public class MyReservationPageController implements Initializable {
         System.out.println("Reserved events size: " + reservedEvents.size()); 
 
         
-        for(int i : reservedEvents){
+        for(int i : reservedEvents2){
             System.out.println("index:"+i);
             reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i); 
             System.out.println(reservedEventsInfo.get(0).getName()+"-"+ reservedEventsInfo.get(0).getType()+"-"+reservedEventsInfo.get(0).getStarTime());
             tableView.getItems().add(reservedEventsInfo.get(0));
-            
         }
+   
         
        // reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(7);
     
