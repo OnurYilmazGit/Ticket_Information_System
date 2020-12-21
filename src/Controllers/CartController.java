@@ -50,109 +50,115 @@ import javafx.stage.StageStyle;
 import tis_fx.EventDAOImpl;
 import tis_fx.ReservationDAOImpl;
 import tis_fx.UserName;
+
 /**
  *
  * @author Asena
  */
-public class CartController extends Event_ScreenController implements Initializable{
-    
+public class CartController extends Event_ScreenController implements Initializable {
+
     @FXML
     private Button buttonApprove;
-   
+
     @FXML
     private TableView<Event> CartView;
-  //  HashMap cart=new HashMap<Integer, Integer>();
-    
-   
+    //  HashMap cart=new HashMap<Integer, Integer>();
+
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
-    ArrayList<Event> selectedEvents =new ArrayList <Event> ();
+    ArrayList<Event> selectedEvents = new ArrayList<Event>();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
     ReservationDAOImpl dAOImpl = new ReservationDAOImpl();
-    
+    Event_ScreenController event_ScreenController = new Event_ScreenController();
     List<Integer> reservedEvents = dAOImpl.getReservedEvents(UserName.getInstance().getUser());
     List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
     List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
-    
+    ObservableList<Event> oListSelected;
+
     @FXML
-    private void approved(MouseEvent e)   {
-        boolean is_clash=false;
-        for(Event ev:selectedEvents){
+    private void approved(MouseEvent e) {
+        boolean is_clash = false;
+        for (Event ev : selectedEvents) {
             Reservation res = new Reservation(UserName.getInstance().getUser(), ev.getId());
             dAOImpl.insertReservation(res);
- 
-            for(int i : reservedEvents2){
-                reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i); 
-                if(reservedEventsInfo.get(0).getStarTime().equals(ev.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(ev.getDate()) ){
-                    is_clash=true;
-                }       
+
+            for (int i : reservedEvents2) {
+                reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i);
+                if (reservedEventsInfo.get(0).getStarTime().equals(ev.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(ev.getDate())) {
+                    is_clash = true;
+                }
             }
         }
-        for(Event ev:selectedEvents){
-            for(Event ev2:selectedEvents){
-                if (ev.getId()!=ev2.getId() && ev.getDate().equals(ev2.getDate()) && ev.getStarTime().equals(ev2.getStarTime()))
-                    is_clash=true;
+        for (Event ev : selectedEvents) {
+            for (Event ev2 : selectedEvents) {
+                if (ev.getId() != ev2.getId() && ev.getDate().equals(ev2.getDate()) && ev.getStarTime().equals(ev2.getStarTime())) {
+                    is_clash = true;
+                }
             }
         }
-        
-        if(is_clash){
+
+        if (is_clash) {
             showDialog("You have reservations starting at the same time and date!");
         }
-        
-        closeScreenOpenMain(e);
 
-    } 
-    
-        @FXML
-    void closeScreen(MouseEvent event) {
-            closeScreenOpenMain(event);
+        event_ScreenController.closeScreenMain();
+        // Approved.getInstance().setApproved(true);
+        closeScreenOpenMain(e);
+        final Node source = (Node) e.getSource();
+        final Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+
     }
-   
+
+    @FXML
+    void closeScreen(MouseEvent event) {
+        final Node source = (Node) event.getSource();
+        final Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
     @Override
-    public void initialize(URL url, ResourceBundle rb){
+    public void initialize(URL url, ResourceBundle rb) {
         //draw the cart
         //columns on the cart view
         System.out.println("initializable in cart");
-        
-        
+
         TableColumn eventName = new TableColumn("Event");
         TableColumn numTickets = new TableColumn("Number of Tickets");
         TableColumn cancelEvent = new TableColumn("Cancel Event");
-        
+
         CartView.getColumns().addAll(eventName, numTickets, cancelEvent);
-        
-        
-       
-        
+
         //print the cart but the cart is null, why
-        HashMap <Integer,Integer> subCart=getCartMap();
-        subCart.forEach((key,value)->{
-            System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
+        HashMap<Integer, Integer> subCart = getCartMap();
+        subCart.forEach((key, value) -> {
+            System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
             System.out.println(" ");
-                        if(subCart.get(key)>0){
-                for(int i=0;i<allEvents.size();i++){
-                    if(allEvents.get(i).getId()==key){
+            if (subCart.get(key) > 0) {
+                for (int i = 0; i < allEvents.size(); i++) {
+                    if (allEvents.get(i).getId() == key) {
                         allEvents.get(i).setSelectedNum(subCart.get(key));
                         selectedEvents.add(allEvents.get(i));
                         System.out.println("item selected");
-                    }else{
+                    } else {
                         System.out.println("item not selected");
                     }
                 }
-        }});
-        ObservableList<Event> oListSelected = FXCollections.observableArrayList(selectedEvents);
+            }
+        });
+        oListSelected = FXCollections.observableArrayList(selectedEvents);
         System.out.println("oList:");
-        for(int i=0; i<oListSelected.size();i++){
-            System.out.println("item"+i+ " ="+oListSelected.get(i).getName());
+        for (int i = 0; i < oListSelected.size(); i++) {
+            System.out.println("item" + i + " =" + oListSelected.get(i).getName());
             System.out.println("");
         }
-        
-    //prpperty value factories
-    eventName.setCellValueFactory(new PropertyValueFactory<Event,String>("name"));
-    numTickets.setCellValueFactory(new PropertyValueFactory <>("selectedNum"));
-    cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
-    
-    //set numTickets
-   /* numTickets.setCellFactory(param-> new TableCell (){
+
+        //prpperty value factories
+        eventName.setCellValueFactory(new PropertyValueFactory<Event, String>("name"));
+        numTickets.setCellValueFactory(new PropertyValueFactory<>("selectedNum"));
+        cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
+
+        //set numTickets
+        /* numTickets.setCellFactory(param-> new TableCell (){
    
         subCart.get(e)
             
@@ -169,32 +175,32 @@ public class CartController extends Event_ScreenController implements Initializa
             setGraphic(pane);
         }
     });*/
-    //add cancelEvent buttons for each event in the cart
-    cancelEvent.setCellFactory(param -> new TableCell<Event,Event>(){
+        //add cancelEvent buttons for each event in the cart
+        cancelEvent.setCellFactory(param -> new TableCell<Event, Event>() {
             @Override
-            protected void updateItem(Event eventT,boolean empty) {
-                
-            super.updateItem(eventT, empty);
-                if(!empty){
+            protected void updateItem(Event eventT, boolean empty) {
+
+                super.updateItem(eventT, empty);
+                if (!empty) {
                     HBox subPane = new HBox();
                     Button cancelButton = new Button("Cancel");
                     subPane.getChildren().addAll(cancelButton);
                     setGraphic(subPane);
 
                     cancelButton.setOnAction(event -> {
-                    Event getevent = getTableView().getItems().get(getIndex());
+                        Event getevent = getTableView().getItems().get(getIndex());
 
-                        try{
+                        try {
                             subCart.remove(getevent.getId());
-                            System.out.println("removed:"+getevent.getId());
+                            System.out.println("removed:" + getevent.getId());
                             //print the subCart so that we can see
-                            subCart.forEach((key,value)->{
-                            System.out.println(String.valueOf(key)+ " - "+ String.valueOf(value));
-                            System.out.println(" ");
+                            updateSubCart(subCart);
+                            subCart.forEach((key, value) -> {
+                                System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
+                                System.out.println(" ");
                             });
                             //renew itself since an event is removed
-                        }
-                        catch(Exception errorType){
+                        } catch (Exception errorType) {
                             Alert alert = new Alert(AlertType.INFORMATION);
                             alert.setTitle("Information Dialog");
                             alert.setHeaderText("Error");
@@ -202,19 +208,18 @@ public class CartController extends Event_ScreenController implements Initializa
                         }
 
                     });
-                }  
-                
-               
-        }  
-    });
-    
-    System.out.println("hello");    
-    CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-    CartView.setItems(oListSelected);
+                }
+
+            }
+        });
+
+        System.out.println("hello");
+        CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        CartView.setItems(oListSelected);
     }
-    
-    private void closeScreenOpenMain(MouseEvent e){
-            try {
+
+    private void closeScreenOpenMain(MouseEvent e) {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
 
@@ -223,16 +228,37 @@ public class CartController extends Event_ScreenController implements Initializa
             stage.setTitle("Event Screen");
             stage.setScene(scene);
             stage.show();
-            ((Node)(e.getSource())).getScene().getWindow().hide();
+            ((Node) (e.getSource())).getScene().getWindow().hide();
         } catch (IOException ex) {
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", ex);
         }
     }
+
     private void showDialog(String text) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(text);
         alert.showAndWait();
+    }
+
+    private void updateSubCart(HashMap<Integer, Integer> cart) {
+        oListSelected.removeAll(oListSelected);
+        cart.forEach((key, value) -> {
+            System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
+            System.out.println(" ");
+            if (cart.get(key) > 0) {
+                for (int i = 0; i < allEvents.size(); i++) {
+                    if (allEvents.get(i).getId() == key) {
+                        allEvents.get(i).setSelectedNum(cart.get(key));
+                        //selectedEvents.add(allEvents.get(i));
+                        CartView.getItems().add(allEvents.get(i));
+                    } else {
+
+                    }
+                }
+            }
+        });
+
     }
 }

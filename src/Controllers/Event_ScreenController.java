@@ -40,11 +40,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import tis_fx.HoldEvent;
 
 import tis_fx.EventDAOImpl;
 import tis_fx.UserName;
 
-public class Event_ScreenController implements Initializable {
+public  class Event_ScreenController implements Initializable {
 
     @FXML
     private TableView<Event> tableView;
@@ -53,18 +54,25 @@ public class Event_ScreenController implements Initializable {
     @FXML
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
+    
+  
 
     @FXML
     private Pane cart_pane;
-   
 
+    boolean approved;
 
+    public boolean isApproved() {
+        return approved;
+    }
 
-
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
 
     @FXML
     private void showCart(MouseEvent e) {
-          
+        HoldEvent.getInstance().setEvent(e);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
@@ -75,15 +83,13 @@ public class Event_ScreenController implements Initializable {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.show();
-            ((Node)(e.getSource())).getScene().getWindow().hide();
-        }
-        catch (IOException error) {
+            
+            
+        } catch (IOException error) {
             error.printStackTrace();
         }
-    
-            
- 
-       /* try {
+
+        /* try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
 
@@ -106,13 +112,10 @@ public class Event_ScreenController implements Initializable {
     }
 
     List<Event> allEvents = eventDAOImpl.getAllEvents();
-    
-    
+
     ObservableList<Event> oListEvents = FXCollections.observableArrayList(allEvents);
 
     FilteredList<Event> filter = new FilteredList(oListEvents, e -> true);
-    
-    
 
     @FXML
     private void search(KeyEvent event) {
@@ -147,11 +150,9 @@ public class Event_ScreenController implements Initializable {
         for (Event iterEvent : allEvents) {
             cart.put(iterEvent.getId(), 0);
         }
-      
+
         tableView.setItems(oListEvents);
 
-      
-        
         TableColumn nameCol = new TableColumn("Name");
         TableColumn typeCol = new TableColumn("Type");
         TableColumn locationCol = new TableColumn("Location");
@@ -237,18 +238,18 @@ public class Event_ScreenController implements Initializable {
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
     }
-    
-     void refreshTable(){
-        List<Event> newList = eventDAOImpl.getAllEvents();
-        oListEvents.clear();
-        oListEvents = FXCollections.observableArrayList(newList);
-        tableView.setItems(oListEvents);
-    }
 
     private void showDialog(String text) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(text);
         alert.showAndWait();
+    }
+    
+     void closeScreenMain(){
+        System.out.println("closeScreenMain reached");
+        final Node source = (Node) HoldEvent.getInstance().getEvent().getSource();
+        final Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 }
