@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="blue-panel" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller= "Controllers.CartController">
+<VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="blue-panel" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CartController">
    <children>
+      <HBox prefHeight="50.0" prefWidth="200.0">
+         <children>
+            <VBox layoutX="500.0" prefHeight="200.0" prefWidth="100.0">
+               <HBox.margin>
+                  <Insets left="500.0" />
+               </HBox.margin>
+               <children>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" onMouseClicked="#closeScreen" size="30">
+                     <VBox.margin>
+                        <Insets left="35.0" top="10.0" />
+                     </VBox.margin>
+                  </FontAwesomeIconView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
       <HBox prefHeight="250.0" prefWidth="600.0">
          <children>
             <TableView fx:id="CartView" prefHeight="133.0" prefWidth="600.0" stylesheets="@../tis_fx/styles.css">

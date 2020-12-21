@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -60,7 +61,7 @@ public class CartController extends Event_ScreenController implements Initializa
     private TableView<Event> CartView;
   //  HashMap cart=new HashMap<Integer, Integer>();
     
-    @FXML
+   
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     ArrayList<Event> selectedEvents =new ArrayList <Event> ();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
@@ -71,11 +72,13 @@ public class CartController extends Event_ScreenController implements Initializa
             Reservation res = new Reservation(UserName.getInstance().getUser(), ev.getId());
             dAOImpl.insertReservation(res);
         }
-        final Node source=(Node) e.getSource();
-        final Stage stage=(Stage) source.getScene().getWindow();
-        stage.close();
-
+        closeScreenOpenMain(e);
     } 
+    
+        @FXML
+    void closeScreen(MouseEvent event) {
+            closeScreenOpenMain(event);
+    }
    
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -163,6 +166,7 @@ public class CartController extends Event_ScreenController implements Initializa
                     System.out.println(" ");
                     });
                     //renew itself since an event is removed
+                    
                 }
                 catch(Exception errorType){
                     Alert alert = new Alert(AlertType.INFORMATION);
@@ -179,5 +183,22 @@ public class CartController extends Event_ScreenController implements Initializa
     System.out.println("hello");    
     CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     CartView.setItems(oListSelected);
+    }
+    
+    private void closeScreenOpenMain(MouseEvent e){
+            try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("Event Screen");
+            stage.setScene(scene);
+            stage.show();
+            ((Node)(e.getSource())).getScene().getWindow().hide();
+        } catch (IOException ex) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", ex);
+        }
     }
 }

@@ -46,7 +46,7 @@ public class Main_PageController implements Initializable {
     private JFXDrawer drawer;
 
     public Main_PageController() {
-
+        
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Main_PageController implements Initializable {
         }
     }
 
-    private void goToMainPage(MouseEvent e) {
+     void goToMainPage(MouseEvent e) {
         try {
             fxml = FXMLLoader.load(getClass().getResource("/Views/Event_Screen.fxml"));
             main_pane.getChildren().removeAll();

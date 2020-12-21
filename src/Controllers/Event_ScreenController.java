@@ -27,7 +27,9 @@ import javafx.scene.input.KeyEvent;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -37,6 +39,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import tis_fx.EventDAOImpl;
 import tis_fx.UserName;
@@ -53,21 +56,34 @@ public class Event_ScreenController implements Initializable {
 
     @FXML
     private Pane cart_pane;
-    private Parent fxml;
+   
+
+
+
+
 
     @FXML
     private void showCart(MouseEvent e) {
-        /*    System.out.println("ERROR");
+          
         try {
-            fxml = FXMLLoader.load(getClass().getResource("/Views/Cart.fxml"));
-            cart_pane.getChildren().removeAll();
-            cart_pane.getChildren().setAll(fxml);
-        } 
-        catch (IOException exc) {
-            Logger.getLogger(Main_PageController.class.getName()).log(Level.SEVERE,"Hata var", exc);
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setTitle("CART");
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setScene(scene);
+            stage.show();
+            ((Node)(e.getSource())).getScene().getWindow().hide();
         }
-         */
-        try {
+        catch (IOException error) {
+            error.printStackTrace();
+        }
+    
+            
+ 
+       /* try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/Views/Cart.fxml"));
 
@@ -80,7 +96,7 @@ public class Event_ScreenController implements Initializable {
         } catch (IOException ex) {
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", e);
-        }
+        }*/
     }
 
     public static HashMap<Integer, Integer> cart = new HashMap<Integer, Integer>();
@@ -90,10 +106,13 @@ public class Event_ScreenController implements Initializable {
     }
 
     List<Event> allEvents = eventDAOImpl.getAllEvents();
-
+    
+    
     ObservableList<Event> oListEvents = FXCollections.observableArrayList(allEvents);
 
     FilteredList<Event> filter = new FilteredList(oListEvents, e -> true);
+    
+    
 
     @FXML
     private void search(KeyEvent event) {
@@ -120,17 +139,19 @@ public class Event_ScreenController implements Initializable {
         cart.put(e, cart.get(e) + add);
     }
 
-    
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         welcomeLabel.setText(UserName.getInstance().getUser());
 
         for (Event iterEvent : allEvents) {
             cart.put(iterEvent.getId(), 0);
         }
+      
+        tableView.setItems(oListEvents);
 
+      
+        
         TableColumn nameCol = new TableColumn("Name");
         TableColumn typeCol = new TableColumn("Type");
         TableColumn locationCol = new TableColumn("Location");
@@ -167,10 +188,10 @@ public class Event_ScreenController implements Initializable {
 
                 if (!empty) {
                     HBox pane = new HBox();
-                    Button addButton = new Button("Add");                   
+                    Button addButton = new Button("Add");
                     TextField numberField = new TextField();
                     numberField.setPromptText("max.10");
-                    numberField.setFocusTraversable(false); 
+                    numberField.setFocusTraversable(false);
                     numberField.setMaxWidth(70);
                     pane.getChildren().addAll(numberField, addButton);
                     setGraphic(pane);
@@ -180,7 +201,7 @@ public class Event_ScreenController implements Initializable {
 
                         try {
                             int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
-                            if (numberOfTicketsAdded<=10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
+                            if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
                                 addToCart(getevent.getId(), numberOfTicketsAdded);
                                 getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
                                 System.out.println(getevent.getAvailableTickets());
@@ -190,25 +211,22 @@ public class Event_ScreenController implements Initializable {
                                     System.out.println(" ");
                                     numberField.setText("");
                                 });
-                            }else if (numberOfTicketsAdded>10){
+                            } else if (numberOfTicketsAdded > 10) {
                                 showDialog("You can book up to 10 tickets!");
                                 numberField.setText("");
-                            } 
-                            else if(numberOfTicketsAdded>getevent.getAvailableTickets()){
+                            } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
                                 showDialog("There aren't enough tickets for this reservation.");
                                 numberField.setText("");
-                            }
-                            else if(numberOfTicketsAdded==0){
+                            } else if (numberOfTicketsAdded == 0) {
                                 showDialog("Please provide a ticket number to make a reservation");
                                 numberField.setText("");
-                            }
-                            else{                                
+                            } else {
                                 throw new Exception();
                             }
-                            
+
                         } catch (Exception errorType) {
-                             showDialog("Please provide a numeric ticket number between 1 and 10!");
-                             numberField.setText("");
+                            showDialog("Please provide a numeric ticket number between 1 and 10!");
+                            numberField.setText("");
                         }
                     });
                 }
@@ -218,8 +236,13 @@ public class Event_ScreenController implements Initializable {
 
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+    }
+    
+     void refreshTable(){
+        List<Event> newList = eventDAOImpl.getAllEvents();
+        oListEvents.clear();
+        oListEvents = FXCollections.observableArrayList(newList);
         tableView.setItems(oListEvents);
-
     }
 
     private void showDialog(String text) {
