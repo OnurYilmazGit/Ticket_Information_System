@@ -64,6 +64,9 @@ public class CartController extends Event_ScreenController implements Initializa
     private TableView<Event> CartView;
     //  HashMap cart=new HashMap<Integer, Integer>();
 
+    @FXML
+    private Label pricelabel;
+
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     ArrayList<Event> selectedEvents = new ArrayList<Event>();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
@@ -73,7 +76,10 @@ public class CartController extends Event_ScreenController implements Initializa
     List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
     List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
     ObservableList<Event> oListSelected;
+    double totalprice=0;
 
+        
+    
     @FXML
     private void approved(MouseEvent e) {
         boolean is_clash = false;
@@ -108,6 +114,7 @@ public class CartController extends Event_ScreenController implements Initializa
         stage.close();
 
     }
+    
 
     @FXML
     void closeScreen(MouseEvent event) {
@@ -156,26 +163,14 @@ public class CartController extends Event_ScreenController implements Initializa
         eventName.setCellValueFactory(new PropertyValueFactory<Event, String>("name"));
         numTickets.setCellValueFactory(new PropertyValueFactory<>("selectedNum"));
         cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
-
-        //set numTickets
-        /* numTickets.setCellFactory(param-> new TableCell (){
-   
-        subCart.get(e)
-            
-            HBox pane = new HBox();
-            
-            for(int i=0;i<oListSelected.size();i++){
-                for(int j=0;j<subCart.size();j++){
-                    if(subCart.keySet().contains(oListSelected.get(i).getId())){
-                        numTicks=(subCart.get(j);
-                    }
-                }
-            }
-            pane.getChildren().addAll(numTicks);
-            setGraphic(pane);
+       
+        for(Event eventt:selectedEvents){
+            totalprice+=eventt.getPrice()*subCart.get(eventt.getId());
         }
-    });*/
-        //add cancelEvent buttons for each event in the cart
+        String s= ""+totalprice;
+        System.out.println("Hello burdayım:"+s);
+        pricelabel.setText(s);
+
         cancelEvent.setCellFactory(param -> new TableCell<Event, Event>() {
             @Override
             protected void updateItem(Event eventT, boolean empty) {
@@ -189,16 +184,24 @@ public class CartController extends Event_ScreenController implements Initializa
 
                     cancelButton.setOnAction(event -> {
                         Event getevent = getTableView().getItems().get(getIndex());
-
                         try {
+                            double totalcancelled = getevent.getPrice()*subCart.get(getevent.getId());
+                            totalprice-=totalcancelled;
+                            String str= ""+totalprice;
+                            System.out.println("Hello burdayım burdayım:"+s);
+                            pricelabel.setText(str);
                             subCart.remove(getevent.getId());
                             System.out.println("removed:" + getevent.getId());
                             //print the subCart so that we can see
                             updateSubCart(subCart);
+                            
                             subCart.forEach((key, value) -> {
                                 System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
-                                System.out.println(" ");
+                                System.out.println(" ");  
                             });
+                            
+
+                           
                             //renew itself since an event is removed
                         } catch (Exception errorType) {
                             Alert alert = new Alert(AlertType.INFORMATION);
@@ -217,7 +220,7 @@ public class CartController extends Event_ScreenController implements Initializa
         CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         CartView.setItems(oListSelected);
     }
-
+    
     private void closeScreenOpenMain(MouseEvent e) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
