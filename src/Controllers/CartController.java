@@ -10,6 +10,7 @@ import Models.Reservation;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,6 +33,7 @@ import java.util.Iterator;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -66,13 +68,38 @@ public class CartController extends Event_ScreenController implements Initializa
     ArrayList<Event> selectedEvents =new ArrayList <Event> ();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
     ReservationDAOImpl dAOImpl = new ReservationDAOImpl();
+    
+    List<Integer> reservedEvents = dAOImpl.getReservedEvents(UserName.getInstance().getUser());
+    List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
+    List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
+    
     @FXML
     private void approved(MouseEvent e)   {
+        boolean is_clash=false;
         for(Event ev:selectedEvents){
             Reservation res = new Reservation(UserName.getInstance().getUser(), ev.getId());
             dAOImpl.insertReservation(res);
+ 
+            for(int i : reservedEvents2){
+                reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i); 
+                if(reservedEventsInfo.get(0).getStarTime().equals(ev.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(ev.getDate()) ){
+                    is_clash=true;
+                }       
+            }
         }
+        for(Event ev:selectedEvents){
+            for(Event ev2:selectedEvents){
+                if (ev.getId()!=ev2.getId() && ev.getDate().equals(ev2.getDate()) && ev.getStarTime().equals(ev2.getStarTime()))
+                    is_clash=true;
+            }
+        }
+        
+        if(is_clash){
+            showDialog("You have reservations starting at the same time and date!");
+        }
+        
         closeScreenOpenMain(e);
+
     } 
     
         @FXML
@@ -201,5 +228,11 @@ public class CartController extends Event_ScreenController implements Initializa
             Logger logger = Logger.getLogger(getClass().getName());
             logger.log(Level.SEVERE, "Failed to create new Window.", ex);
         }
+    }
+    private void showDialog(String text) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText(text);
+        alert.showAndWait();
     }
 }
