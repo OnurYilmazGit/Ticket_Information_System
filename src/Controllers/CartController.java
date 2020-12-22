@@ -190,7 +190,7 @@ public class CartController extends Event_ScreenController implements Initializa
                             String str= ""+totalprice;
                             System.out.println("Hello burdayım burdayım:"+s);
                             pricelabel.setText(str);
-                            subCart.remove(getevent.getId());
+                            subCart.put(getevent.getId(),0);
                             System.out.println("removed:" + getevent.getId());
                             //print the subCart so that we can see
                             updateSubCart(subCart);
