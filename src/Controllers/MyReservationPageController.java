@@ -48,6 +48,10 @@ public class MyReservationPageController implements Initializable {
         
         System.out.println("Reserved events size: " + reservedEvents.size()); 
 
+        if(reservedEvents.isEmpty()){
+        System.out.println("Is empty");
+        createTable();
+        } else {
         
         for(int i : reservedEvents2){
             System.out.println("index:"+i);
@@ -55,6 +59,8 @@ public class MyReservationPageController implements Initializable {
             System.out.println(reservedEventsInfo.get(0).getName()+"-"+ reservedEventsInfo.get(0).getType()+"-"+reservedEventsInfo.get(0).getStarTime());
             tableView.getItems().add(reservedEventsInfo.get(0));
         }
+        
+        createTable();
    
         
        // reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(7);
@@ -72,7 +78,14 @@ public class MyReservationPageController implements Initializable {
     //    System.out.println(reservedEventsInfo.get(0).getName());
         System.out.println("Test Test Test : "+reservedEvents.get(0));
          
-        TableColumn nameCol = new TableColumn("Name");
+      
+                
+       //tableView.setItems(oListEvents);    
+    }    
+    }
+    
+    private void createTable(){
+          TableColumn nameCol = new TableColumn("Name");
         TableColumn typeCol = new TableColumn("Type");
         TableColumn locationCol = new TableColumn("Location");
         TableColumn startTimeCol = new TableColumn("Start Time");
@@ -92,8 +105,5 @@ public class MyReservationPageController implements Initializable {
         // dateCol.setMaxWidth(200);
         
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);  
-                
-       //tableView.setItems(oListEvents);    
-    }    
-    
+    }
 }

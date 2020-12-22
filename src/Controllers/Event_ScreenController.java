@@ -57,18 +57,9 @@ public  class Event_ScreenController implements Initializable {
     
   
 
-    @FXML
-    private Pane cart_pane;
+ 
 
-    boolean approved;
 
-    public boolean isApproved() {
-        return approved;
-    }
-
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
 
     @FXML
     private void showCart(MouseEvent e) {
