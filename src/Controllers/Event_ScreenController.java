@@ -55,6 +55,14 @@ public  class Event_ScreenController implements Initializable {
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     
+    TableColumn nameCol = new TableColumn("Name");
+    TableColumn typeCol = new TableColumn("Type");
+    TableColumn locationCol = new TableColumn("Location");
+    TableColumn startTimeCol = new TableColumn("Start Time");
+    TableColumn dateCol = new TableColumn("Date");
+    TableColumn priceCol = new TableColumn("Price");
+    TableColumn availableTicketsCol = new TableColumn("Available Tickets");
+    TableColumn addItem = new TableColumn("Add Event");
   
 
  
@@ -127,6 +135,58 @@ public  class Event_ScreenController implements Initializable {
         SortedList sort = new SortedList(filter);
         sort.comparatorProperty().bind(tableView.comparatorProperty());
         tableView.setItems(sort);
+        addItem.setCellFactory(param -> new TableCell<Event, Event>() {
+
+            @Override
+            protected void updateItem(Event eventT, boolean empty) {
+                super.updateItem(eventT, empty);
+
+                if (!empty) {
+                    HBox pane = new HBox();
+                    Button addButton = new Button("Add");
+                    TextField numberField = new TextField();
+                    numberField.setPromptText("max.10");
+                    numberField.setFocusTraversable(false);
+                    numberField.setMaxWidth(70);
+                    pane.getChildren().addAll(numberField, addButton);
+                    setGraphic(pane);
+
+                    addButton.setOnAction(event -> {
+                        Event getevent = getTableView().getItems().get(getIndex());
+
+                        try {
+                            int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
+                            if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
+                                addToCart(getevent.getId(), numberOfTicketsAdded);
+                                getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
+                                System.out.println(getevent.getAvailableTickets());
+                                showDialog("The event was added your cart!");
+                                cart.forEach((key, value) -> {
+                                    System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
+                                    System.out.println(" ");
+                                    numberField.setText("");
+                                });
+                            } else if (numberOfTicketsAdded > 10) {
+                                showDialog("You can book up to 10 tickets!");
+                                numberField.setText("");
+                            } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
+                                showDialog("There aren't enough tickets for this reservation.");
+                                numberField.setText("");
+                            } else if (numberOfTicketsAdded == 0) {
+                                showDialog("Please provide a ticket number to make a reservation");
+                                numberField.setText("");
+                            } else {
+                                throw new Exception();
+                            }
+
+                        } catch (Exception errorType) {
+                            showDialog("Please provide a numeric ticket number between 1 and 10!");
+                            numberField.setText("");
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void addToCart(int e, int add) {
@@ -144,14 +204,7 @@ public  class Event_ScreenController implements Initializable {
 
         tableView.setItems(oListEvents);
 
-        TableColumn nameCol = new TableColumn("Name");
-        TableColumn typeCol = new TableColumn("Type");
-        TableColumn locationCol = new TableColumn("Location");
-        TableColumn startTimeCol = new TableColumn("Start Time");
-        TableColumn dateCol = new TableColumn("Date");
-        TableColumn priceCol = new TableColumn("Price");
-        TableColumn availableTicketsCol = new TableColumn("Available Tickets");
-        TableColumn addItem = new TableColumn("Add Event");
+
 
         tableView.getColumns().addAll(nameCol, typeCol, locationCol, startTimeCol, dateCol, priceCol, availableTicketsCol, addItem);
 
