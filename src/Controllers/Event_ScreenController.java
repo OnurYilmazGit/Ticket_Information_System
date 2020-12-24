@@ -43,9 +43,10 @@ import javafx.stage.StageStyle;
 import tis_fx.HoldEvent;
 
 import tis_fx.EventDAOImpl;
+import tis_fx.HoldCart;
 import tis_fx.UserName;
 
-public  class Event_ScreenController implements Initializable {
+public class Event_ScreenController implements Initializable {
 
     @FXML
     private TableView<Event> tableView;
@@ -54,7 +55,7 @@ public  class Event_ScreenController implements Initializable {
     @FXML
     private TextField search;
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
-    
+
     TableColumn nameCol = new TableColumn("Name");
     TableColumn typeCol = new TableColumn("Type");
     TableColumn locationCol = new TableColumn("Location");
@@ -63,14 +64,18 @@ public  class Event_ScreenController implements Initializable {
     TableColumn priceCol = new TableColumn("Price");
     TableColumn availableTicketsCol = new TableColumn("Available Tickets");
     TableColumn addItem = new TableColumn("Add Event");
-  
 
- 
+    //private HashMap<Integer, Integer> cart = HoldCart.getInstance().getCart();
+    HashMap<Integer, Integer> cart = new HashMap();
 
-
+    public void addToCart(int e, int add) {
+        cart.put(e, cart.get(e) + add);
+        HoldCart.getInstance().setCart(cart);
+    }
 
     @FXML
     private void showCart(MouseEvent e) {
+      //  HoldCart.getInstance().setCart(cart);
         HoldEvent.getInstance().setEvent(e);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -82,8 +87,7 @@ public  class Event_ScreenController implements Initializable {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.setScene(scene);
             stage.show();
-            
-            
+
         } catch (IOException error) {
             error.printStackTrace();
         }
@@ -104,12 +108,10 @@ public  class Event_ScreenController implements Initializable {
         }*/
     }
 
-    public static HashMap<Integer, Integer> cart = new HashMap<Integer, Integer>();
-
-    public static HashMap<Integer, Integer> getCartMap() {
+    /*    public static HashMap<Integer, Integer> getCartMap() {
         return Event_ScreenController.cart;
     }
-
+     */
     List<Event> allEvents = eventDAOImpl.getAllEvents();
 
     ObservableList<Event> oListEvents = FXCollections.observableArrayList(allEvents);
@@ -158,6 +160,7 @@ public  class Event_ScreenController implements Initializable {
                             int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
                             if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
                                 addToCart(getevent.getId(), numberOfTicketsAdded);
+
                                 getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
                                 System.out.println(getevent.getAvailableTickets());
                                 showDialog("The event was added your cart!");
@@ -189,10 +192,6 @@ public  class Event_ScreenController implements Initializable {
         });
     }
 
-    public void addToCart(int e, int add) {
-        cart.put(e, cart.get(e) + add);
-    }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -203,8 +202,6 @@ public  class Event_ScreenController implements Initializable {
         }
 
         tableView.setItems(oListEvents);
-
-
 
         tableView.getColumns().addAll(nameCol, typeCol, locationCol, startTimeCol, dateCol, priceCol, availableTicketsCol, addItem);
 
@@ -248,6 +245,8 @@ public  class Event_ScreenController implements Initializable {
                             int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
                             if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
                                 addToCart(getevent.getId(), numberOfTicketsAdded);
+                                    
+                                
                                 getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
                                 System.out.println(getevent.getAvailableTickets());
                                 showDialog("The event was added your cart!");
@@ -289,11 +288,12 @@ public  class Event_ScreenController implements Initializable {
         alert.setHeaderText(text);
         alert.showAndWait();
     }
-    
-     void closeScreenMain(){
+
+    void closeScreenMain() {
         System.out.println("closeScreenMain reached");
         final Node source = (Node) HoldEvent.getInstance().getEvent().getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+
     }
 }

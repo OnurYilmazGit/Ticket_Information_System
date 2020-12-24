@@ -85,7 +85,7 @@ public class MyReservationPageController implements Initializable {
     }
     
     private void createTable(){
-          TableColumn nameCol = new TableColumn("Name");
+        TableColumn nameCol = new TableColumn("Name");
         TableColumn typeCol = new TableColumn("Type");
         TableColumn locationCol = new TableColumn("Location");
         TableColumn startTimeCol = new TableColumn("Start Time");
