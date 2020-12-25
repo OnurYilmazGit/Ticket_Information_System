@@ -91,8 +91,38 @@ public class SignUpController {
         }
 
     }
+    public boolean addUser(String username,String password,boolean isStudent){
+        boolean studentStatus = false;
+        UserDAOImpl dAOImpl = new UserDAOImpl();
+        List<User> userList = dAOImpl.getAllUsers();
+        boolean isMatched = false;
 
-    private void showErrorMessage(String msg) {
+        if (isStudent) {
+            studentStatus = true;
+        }
+        for (User user : userList) {
+            if (user.getName().equals(username)) {
+                isMatched = true;
+                return false;
+            }
+        }
+        if (!isMatched) {
+            User user = new User(username, password, studentStatus);
+            try{
+                dAOImpl.insertUser(user);
+            }
+            catch(Exception e){
+                return false;
+            }
+            
+        } 
+        
+        
+        return true;
+    }
+    
+            
+        private void showErrorMessage(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
