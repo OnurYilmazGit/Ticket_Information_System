@@ -81,33 +81,41 @@ public class CartController extends Event_ScreenController implements Initializa
     private HashMap<Integer, Integer> cart = HoldCart.getInstance().getCart();
 
 
-        
+       
     
     @FXML
     private void approved(MouseEvent e) {
         boolean is_clash = false;
-        for (Event ev : selectedEvents) {
-            Reservation res = new Reservation(UserName.getInstance().getUser(), ev.getId());
+         
+        for (int i=0;i< CartView.getItems().size();i++) {
+            Event getevent = CartView.getItems().get(i);
+            Reservation res = new Reservation(UserName.getInstance().getUser(), getevent.getId());
+            System.out.println("Hello hello:" +getevent.getId());
             dAOImpl.insertReservation(res);
-
-            for (int i : reservedEvents2) {
-                reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i);
-                if (reservedEventsInfo.get(0).getStarTime().equals(ev.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(ev.getDate())) {
-                    is_clash = true;
-                }
-            }
-        }
-        for (Event ev : selectedEvents) {
-            for (Event ev2 : selectedEvents) {
-                if (ev.getId() != ev2.getId() && ev.getDate().equals(ev2.getDate()) && ev.getStarTime().equals(ev2.getStarTime())) {
+            
+            for (int j : reservedEvents2) {
+                reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(j);
+                if (reservedEventsInfo.get(0).getStarTime().equals(getevent.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(getevent.getDate())) {
                     is_clash = true;
                 }
             }
         }
         
+        for (int i=0;i< CartView.getItems().size();i++) {
+            for (int j=0;j< CartView.getItems().size();j++) {
+                Event getevent1 = CartView.getItems().get(i);
+                Event getevent2 = CartView.getItems().get(j);
+                if (getevent1.getId() != getevent2.getId() && getevent1.getDate().equals(getevent2.getDate()) && getevent1.getStarTime().equals(getevent2.getStarTime())) {
+                    is_clash = true;
+                }
+            }
+        }
+       
         if (is_clash) {
+            System.out.println("Clash?:" +is_clash);
             showDialog("You have reservations starting at the same time and date!");
         }
+
         cart.clear();
         HoldCart.getInstance().setCart(cart);
 
