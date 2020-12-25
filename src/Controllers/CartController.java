@@ -50,6 +50,7 @@ import javafx.stage.StageStyle;
 import tis_fx.EventDAOImpl;
 import tis_fx.HoldCart;
 import tis_fx.ReservationDAOImpl;
+import tis_fx.UserDAOImpl;
 import tis_fx.UserName;
 
 /**
@@ -72,6 +73,7 @@ public class CartController extends Event_ScreenController implements Initializa
     ArrayList<Event> selectedEvents = new ArrayList<Event>();
     List<Event> allEvents = eventDAOImpl.getAllEvents();
     ReservationDAOImpl dAOImpl = new ReservationDAOImpl();
+    UserDAOImpl userdaoimp = new UserDAOImpl();
     Event_ScreenController event_ScreenController = new Event_ScreenController();
     List<Integer> reservedEvents = dAOImpl.getReservedEvents(UserName.getInstance().getUser());
     List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
@@ -79,9 +81,8 @@ public class CartController extends Event_ScreenController implements Initializa
     ObservableList<Event> oListSelected;
     double totalprice=0;
     private HashMap<Integer, Integer> cart = HoldCart.getInstance().getCart();
-
-
-       
+    byte is_user_student_b =userdaoimp.checkIfStudent(UserName.getInstance().getUser()).get(0);  
+    boolean  is_user_student = is_user_student_b!=0;
     
     @FXML
     private void approved(MouseEvent e) {
@@ -110,7 +111,7 @@ public class CartController extends Event_ScreenController implements Initializa
                 }
             }
         }
-       
+        
         if (is_clash) {
             System.out.println("Clash?:" +is_clash);
             showDialog("You have reservations starting at the same time and date!");
@@ -179,9 +180,18 @@ public class CartController extends Event_ScreenController implements Initializa
         for(Event eventt:selectedEvents){
             totalprice+=eventt.getPrice()*cart.get(eventt.getId());
         }
-        String s= ""+totalprice;
-        System.out.println("Hello burdayım:"+s);
-        pricelabel.setText(s);
+        if(is_user_student){
+            double totalprice_s=totalprice*0.7;
+            String s= ""+totalprice_s;
+            System.out.println("Hello burdayım:"+s);
+            pricelabel.setText(s);
+        }
+        else{
+            String s= ""+totalprice;
+            System.out.println("Hello burdayım:"+s);
+            pricelabel.setText(s);
+        }
+       
 
         cancelEvent.setCellFactory(param -> new TableCell<Event, Event>() {
             @Override
@@ -199,9 +209,15 @@ public class CartController extends Event_ScreenController implements Initializa
                         try {
                             double totalcancelled = getevent.getPrice()*cart.get(getevent.getId());
                             totalprice-=totalcancelled;
-                            String str= ""+totalprice;
-                            System.out.println("Hello burdayım burdayım:"+s);
-                            pricelabel.setText(str);
+                            if(is_user_student){
+                                double totalprice_s=totalprice*0.7;
+                                String s= ""+totalprice_s;                               
+                                pricelabel.setText(s);
+                            }
+                            else{
+                                String s= ""+totalprice;
+                                pricelabel.setText(s);
+                            }
                             cart.put(getevent.getId(),0);
                             System.out.println("removed:" + getevent.getId());
                             //print the cart so that we can see

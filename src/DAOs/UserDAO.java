@@ -23,4 +23,5 @@ public interface UserDAO {
 	
     public User findUser(int id);
     
+    public List<Byte> checkIfStudent(String name);
 }

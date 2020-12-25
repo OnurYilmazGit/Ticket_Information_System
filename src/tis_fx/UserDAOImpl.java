@@ -109,5 +109,21 @@ public class UserDAOImpl implements UserDAO {
         System.out.println("Username : " + user.getName());
         return user;
     }
+    @Override
+    public List<Byte> checkIfStudent(String name){
+        List<Byte> student = null;      
+        try {
+            session.beginTransaction();
+            student = session.createSQLQuery("SELECT is_student FROM users where user_name = '" + name + "'").getResultList();
+        } catch (HibernateException e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+           session.getTransaction().commit();
+        }
+        return student;
+    }
 
 }
