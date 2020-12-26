@@ -41,45 +41,9 @@ public class Event_ScreenControllerTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of addToCart method, of class Event_ScreenController.
-     */
-    @Test
-    public void testAddToCart() {
-        System.out.println("addToCart");
-        int e = 0;
-        int add = 0;
-        Event_ScreenController instance = new Event_ScreenController();
-        instance.addToCart(e, add);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+   
 
-    /**
-     * Test of initialize method, of class Event_ScreenController.
-     */
-    @Test
-    public void testInitialize() {
-        System.out.println("initialize");
-        URL url = null;
-        ResourceBundle rb = null;
-        Event_ScreenController instance = new Event_ScreenController();
-        instance.initialize(url, rb);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of closeScreenMain method, of class Event_ScreenController.
-     */
-    @Test
-    public void testCloseScreenMain() {
-        System.out.println("closeScreenMain");
-        Event_ScreenController instance = new Event_ScreenController();
-        instance.closeScreenMain();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of checkNumTickets method, of class Event_ScreenController.
@@ -90,7 +54,7 @@ public class Event_ScreenControllerTest {
         TextField numberField = null;
         Event getevent = null;
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.checkNumTickets(numberField, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
