@@ -7,6 +7,9 @@ package Controllers;
 
 import Models.Event;
 import java.net.URL;
+import java.time.Instant;
+import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextField;
 import org.junit.After;
@@ -15,14 +18,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tis_fx.EventDAOImpl;
 
 /**
  *
  * @author HP
  */
 public class Event_ScreenControllerTest {
+     private TextField numberField;
+     EventDAOImpl eventDAOImpl = new EventDAOImpl();
+     private List<Event> allEvents = eventDAOImpl.getAllEvents();
     
-    public Event_ScreenControllerTest() {
+     public Event_ScreenControllerTest() {
+       
     }
     
     @BeforeClass
@@ -41,24 +49,34 @@ public class Event_ScreenControllerTest {
     public void tearDown() {
     }
 
-   
-
+    
 
 
     /**
      * Test of checkNumTickets method, of class Event_ScreenController.
      */
     @Test
-    public void testCheckNumTickets() {
-        System.out.println("checkNumTickets");
-        TextField numberField = null;
-        Event getevent = null;
+    public void intTestCheckNumTickets() {
+        System.out.println("intTestCheckNumTickets");
+        Event getevent = allEvents.get(0);
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = true;
-        boolean result = instance.checkNumTickets(numberField, getevent);
+        boolean expResult = false;
+        boolean result = instance.checkNumTickets(5, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       
+    }
+    
+    @Test
+    public void zeroTestCheckNumTickets() {
+        System.out.println("zeroTestCheckNumTickets");
+        Event getevent = allEvents.get(0);
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = false;
+        boolean result = instance.checkNumTickets(0, getevent);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+       
     }
     
 }

@@ -159,8 +159,12 @@ public class Event_ScreenController implements Initializable {
 
                     addButton.setOnAction(event -> {
                         Event getevent = getTableView().getItems().get(getIndex());
-
-                     checkNumTickets(numberField, getevent);
+                         int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
+                        try {
+                            checkNumTickets(numberOfTicketsAdded, getevent);
+                        } catch (Exception ex) {
+                            Logger.getLogger(Event_ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     });
                 }
             }
@@ -215,7 +219,12 @@ public class Event_ScreenController implements Initializable {
 
                     addButton.setOnAction(event -> {
                         Event getevent = getTableView().getItems().get(getIndex());
-                        checkNumTickets(numberField, getevent);
+                         int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
+                        try {
+                            checkNumTickets(numberOfTicketsAdded, getevent);
+                        } catch (Exception ex) {
+                            Logger.getLogger(Event_ScreenController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     });
                 }
 
@@ -226,11 +235,13 @@ public class Event_ScreenController implements Initializable {
 
     }
 
-    private void showDialog(String text) {
+     private boolean showDialog(String text) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(text);
         alert.showAndWait();
+         
+      return false;
     }
 
     void closeScreenMain() {
@@ -241,39 +252,42 @@ public class Event_ScreenController implements Initializable {
 
     }
 
-    boolean checkNumTickets(TextField numberField, Event getevent) {
+    boolean checkNumTickets(int numberOfTicketsAdded, Event getevent) {
+        boolean status = false;
         try {
-            int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
+           
             if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
                 addToCart(getevent.getId(), numberOfTicketsAdded);
-                showDialog("The event was added your cart!");
+               // showDialog("The event was added your cart!");
                 cart.forEach((key, value) -> {
                     System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
                     System.out.println(" ");
                     numberField.setText("");
                 });
-                return true;
+               status = true;
             } else if (numberOfTicketsAdded > 10) {
-                showDialog("You can book up to 10 tickets!");
+               // showDialog("You can book up to 10 tickets!");
                 numberField.setText("");
-                return true;
+                status = true;
+                
             } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
-                showDialog("There aren't enough tickets for this reservation.");
+               // showDialog("There aren't enough tickets for this reservation.");
                 numberField.setText("");
-                return true;
+                 status = true;
             } else if (numberOfTicketsAdded == 0) {
-                showDialog("Please provide a ticket number to make a reservation");
+               // showDialog("Please provide a ticket number to make a reservation");
                 numberField.setText("");
-                return true;
+                status = true;
             } else {
-                throw new Exception();
-               
+                
+                
             }
 
         } catch (Exception errorType) {
-            showDialog("Please provide a numeric ticket number between 1 and 10!");
-            numberField.setText("");
+            //showDialog("Please provide a numeric ticket number between 1 and 10!");
+           // numberField.setText("");
+            status = false;
         }
-        return false;
+        return status;
     }
 }
