@@ -64,13 +64,15 @@ public class SignUpController {
         for (User user : userList) {
             if (user.getName().equals(signUpName.getText())) {
                 isMatched = true;
+                showErrorMessage("This username is already taken, please choose another username and password!");
+
             }
         }
         if (!isMatched) {
-            if(signUpName.getText().isEmpty() || signUpPassword.getText().isEmpty())
+            if(signUpName.getText().trim().isEmpty() || signUpPassword.getText().isEmpty())
                 showErrorMessage("Please do not leave the Username and Password blank.");
             else {
-                User user = new User(signUpName.getText(), signUpPassword.getText(), studentStatus);
+                User user = new User(signUpName.getText().trim(), signUpPassword.getText(), studentStatus);
                 dAOImpl.insertUser(user);
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
@@ -87,10 +89,11 @@ public class SignUpController {
                 logger.log(Level.SEVERE, "Failed to create new Window.", e);
                 }
                }
-            } else {
-                showErrorMessage("This username is already taken, please choose another username and password!");
-                signUpName.setText("");
-                signUpPassword.setText("");
+            } 
+        else {
+            showErrorMessage("This username is already taken, please choose another username and password!");
+            signUpName.setText("");
+            signUpPassword.setText("");
         }
     }
     
@@ -99,39 +102,42 @@ public class SignUpController {
         UserDAOImpl dAOImpl = new UserDAOImpl();
         List<User> userList = dAOImpl.getAllUsers();
         boolean isMatched = false;
-
-        if (isStudent) {
-            studentStatus = true;
+        if(username.isEmpty()){
+            return false;
         }
-        for (User user : userList) {
-            if (user.getName().equals(username)) {
-                isMatched = true;
-                return false;
-            }
+        else if(password.isEmpty()){
+            return false;
         }
-        if (!isMatched) {
-            User user = new User(username, password, studentStatus);
-            try{
-                dAOImpl.insertUser(user);
+        else{
+            if (isStudent) {
+                studentStatus = true;
             }
-            catch(Exception e){
-                return false;
+            for (User user : userList) {
+                if (user.getName().toLowerCase().trim().equals(username.toLowerCase().trim())){
+                    isMatched = true;
+                    return false;
+                }
             }
-            
-        } 
-        
-        
+            if (!isMatched) {
+                if(username.length()>45 || password.length()>45){
+                    return false;
+                }
+                
+                User user = new User(username, password, studentStatus);                 
+            } 
+        }
         return true;
-    }
+    }   
+    
     
             
-        private void showErrorMessage(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
+    private void showErrorMessage(String msg) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Information Dialog");
+    alert.setHeaderText(null);
+    alert.setContentText(msg);
 
-        alert.showAndWait();
+    alert.showAndWait();
     }
 
 }
