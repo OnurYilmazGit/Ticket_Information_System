@@ -20,10 +20,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import tis_fx.EventDAOImpl;
 
-/**
- *
- * @author HP
- */
 public class Event_ScreenControllerTest {
      private TextField numberField;
      EventDAOImpl eventDAOImpl = new EventDAOImpl();
@@ -74,6 +70,40 @@ public class Event_ScreenControllerTest {
         Event_ScreenController instance = new Event_ScreenController();
         boolean expResult = true;
         boolean result = instance.checkNumTickets(0, getevent);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+       
+    }
+        @Test
+        public void moreThanTenTestCheckNumTickets() {
+        System.out.println("moreThanTenTestCheckNumTickets");
+        Event getevent = allEvents.get(3);
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = true;
+        boolean result = instance.checkNumTickets(11, getevent);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+       
+    }
+        @Test
+        public void charTestCheckNumTickets() {
+        System.out.println("charTestCheckNumTickets");
+        Event getevent = allEvents.get(3);
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = true;
+        boolean result = instance.checkNumTickets('e', getevent);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.    
+    }
+    
+        @Test
+        public void moreThanAvailableTestCheckNumTickets() {
+        System.out.println("moreThanAvailableTestCheckNumTickets");
+        Event getevent = allEvents.get(1);
+        int available_tickets=getevent.getAvailableTickets()+1;
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = true;
+        boolean result = instance.checkNumTickets(available_tickets, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
