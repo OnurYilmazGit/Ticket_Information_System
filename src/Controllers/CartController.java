@@ -46,6 +46,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tis_fx.EventDAOImpl;
@@ -68,7 +69,10 @@ public class CartController extends Event_ScreenController implements Initializa
     //  HashMap cart=new HashMap<Integer, Integer>();
 
     @FXML
-    private Label pricelabel;
+    private Label totalPriceLabel;
+
+    @FXML
+    private Label discountedPriceLabel;
 
     EventDAOImpl eventDAOImpl = new EventDAOImpl();
     ArrayList<Event> selectedEvents = new ArrayList<Event>();
@@ -80,19 +84,19 @@ public class CartController extends Event_ScreenController implements Initializa
     List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
     List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
     ObservableList<Event> oListSelected;
-    double totalprice=0;
-    private HashMap<Integer, Integer> cart = HoldCart.getInstance().getCart();
-    byte is_user_student_b =userdaoimp.checkIfStudent(UserName.getInstance().getUser()).get(0);  
-    boolean  is_user_student = is_user_student_b!=0;
-    
+    double totalprice = 0;
+    private HashMap<Integer, Integer> cart = new HashMap<>();
+    byte is_user_student_b = userdaoimp.checkIfStudent(UserName.getInstance().getUser()).get(0);
+    boolean is_user_student = is_user_student_b != 0;
+
     @FXML
     private void approved(MouseEvent e) {
         boolean is_clash = false;
-         
-        for (int i=0;i< CartView.getItems().size();i++) {
+
+        for (int i = 0; i < CartView.getItems().size(); i++) {
             Event getevent = CartView.getItems().get(i);
             Reservation res = new Reservation(UserName.getInstance().getUser(), getevent.getId());
-            System.out.println("Hello hello:" +getevent.getId());
+            System.out.println("Hello hello:" + getevent.getId());
             dAOImpl.insertReservation(res);
             getevent.setAvailableTickets(getevent.getAvailableTickets() - cart.get(getevent.getId()));
             System.out.println(getevent.getAvailableTickets());
@@ -103,9 +107,9 @@ public class CartController extends Event_ScreenController implements Initializa
                 }
             }
         }
-        
-        for (int i=0;i< CartView.getItems().size();i++) {
-            for (int j=0;j< CartView.getItems().size();j++) {
+
+        for (int i = 0; i < CartView.getItems().size(); i++) {
+            for (int j = 0; j < CartView.getItems().size(); j++) {
                 Event getevent1 = CartView.getItems().get(i);
                 Event getevent2 = CartView.getItems().get(j);
                 if (getevent1.getId() != getevent2.getId() && getevent1.getDate().equals(getevent2.getDate()) && getevent1.getStarTime().equals(getevent2.getStarTime())) {
@@ -113,9 +117,9 @@ public class CartController extends Event_ScreenController implements Initializa
                 }
             }
         }
-        
+
         if (is_clash) {
-            System.out.println("Clash?:" +is_clash);
+            System.out.println("Clash?:" + is_clash);
             showDialog("You have reservations starting at the same time and date!");
         }
 
@@ -130,7 +134,6 @@ public class CartController extends Event_ScreenController implements Initializa
         stage.close();
 
     }
-    
 
     @FXML
     void closeScreen(MouseEvent event) {
@@ -141,6 +144,14 @@ public class CartController extends Event_ScreenController implements Initializa
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       
+        if(HoldCart.getInstance().getCart() == null){
+            System.out.println("Cart is empty");
+        } else {
+            
+         cart = HoldCart.getInstance().getCart();
+        
+       
         //draw the cart
         //columns on the cart view
         System.out.println("initializable in cart");
@@ -178,22 +189,22 @@ public class CartController extends Event_ScreenController implements Initializa
         eventName.setCellValueFactory(new PropertyValueFactory<Event, String>("name"));
         numTickets.setCellValueFactory(new PropertyValueFactory<>("selectedNum"));
         cancelEvent.setCellValueFactory(new PropertyValueFactory<>("cancelButton"));
-       
-        for(Event eventt:selectedEvents){
-            totalprice+=eventt.getPrice()*cart.get(eventt.getId());
+
+        for (Event eventt : selectedEvents) {
+            totalprice += eventt.getPrice() * cart.get(eventt.getId());
         }
-        if(is_user_student){
-            double totalprice_s=totalprice*0.7;
-            String s= ""+totalprice_s;
-            System.out.println("Hello burdayım:"+s);
-            pricelabel.setText(s);
+        if (is_user_student) {
+            double discountedPrice = totalprice * 0.7;
+            //System.out.println("Hello burdayım:"+s);
+            discountedPriceLabel.setVisible(true);
+            discountedPriceLabel.setText("Discounted Price: " + discountedPrice);
+            totalPriceLabel.setOpacity(0.4);
+            totalPriceLabel.setText("Total Price: " + totalprice);
+
+        } else {
+            String s = "" + totalprice;
+            totalPriceLabel.setText("Total Price: " + totalprice);
         }
-        else{
-            String s= ""+totalprice;
-            System.out.println("Hello burdayım:"+s);
-            pricelabel.setText(s);
-        }
-       
 
         cancelEvent.setCellFactory(param -> new TableCell<Event, Event>() {
             @Override
@@ -209,29 +220,28 @@ public class CartController extends Event_ScreenController implements Initializa
                     cancelButton.setOnAction(event -> {
                         Event getevent = getTableView().getItems().get(getIndex());
                         try {
-                            double totalcancelled = getevent.getPrice()*cart.get(getevent.getId());
-                            totalprice-=totalcancelled;
-                            if(is_user_student){
-                                double totalprice_s=totalprice*0.7;
-                                String s= ""+totalprice_s;                               
-                                pricelabel.setText(s);
+                            double totalcancelled = getevent.getPrice() * cart.get(getevent.getId());
+                            totalprice -= totalcancelled;
+                            if (is_user_student) {
+                                double discountedPrice = totalprice * 0.7;
+                                //System.out.println("Hello burdayım:"+s);
+                                discountedPriceLabel.setVisible(true);
+                                discountedPriceLabel.setText("Discounted Price: " + discountedPrice);
+                                totalPriceLabel.setOpacity(0.4);
+                                totalPriceLabel.setText("Total Price: " + totalprice);
+                            } else {
+                                 totalPriceLabel.setText("Total Price: " + totalprice);
                             }
-                            else{
-                                String s= ""+totalprice;
-                                pricelabel.setText(s);
-                            }
-                            cart.put(getevent.getId(),0);
+                            cart.put(getevent.getId(), 0);
                             System.out.println("removed:" + getevent.getId());
                             //print the cart so that we can see
                             updateCart(cart);
-                            
+
                             cart.forEach((key, value) -> {
                                 System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
-                                System.out.println(" ");  
+                                System.out.println(" ");
                             });
-                            
 
-                           
                             //renew itself since an event is removed
                         } catch (Exception errorType) {
                             Alert alert = new Alert(AlertType.INFORMATION);
@@ -249,7 +259,9 @@ public class CartController extends Event_ScreenController implements Initializa
         System.out.println("hello");
         CartView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         CartView.setItems(oListSelected);
-    }
+        }
+         }
+    
 
     private void closeScreenOpenMain(MouseEvent e) {
         try {
@@ -292,6 +304,8 @@ public class CartController extends Event_ScreenController implements Initializa
                 }
             }
         });
-
     }
 }
+
+    
+

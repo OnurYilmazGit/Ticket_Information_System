@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="blue-panel" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CartController">
+<VBox alignment="BOTTOM_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="blue-panel" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CartController">
    <children>
       <HBox prefHeight="50.0" prefWidth="200.0">
          <children>
@@ -39,17 +39,25 @@
      
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <HBox alignment="CENTER" layoutX="-5000.0" prefHeight="100.0" prefWidth="125.0">
+            <HBox alignment="CENTER" layoutX="-5000.0" prefHeight="96.0" prefWidth="245.0">
                <children>
-                  <Label contentDisplay="RIGHT" prefHeight="21.0" prefWidth="87.0" text="Total Price:" textFill="#f5f2f2">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="pricelabel" contentDisplay="CENTER" prefHeight="25.0" prefWidth="66.0" textFill="WHITE">
-                     <font>
-                        <Font size="14.0" />
-                     </font></Label>
+                  <VBox prefHeight="100.0" prefWidth="251.0">
+                     <children>
+                        <Label fx:id="totalPriceLabel" alignment="TOP_CENTER" contentDisplay="RIGHT" prefHeight="30.0" prefWidth="245.0" text="Total Price:" textAlignment="CENTER" textFill="#f5f2f2">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="35.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="discountedPriceLabel" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="252.0" text="Discounted Price:" textFill="WHITE" visible="false">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0">
