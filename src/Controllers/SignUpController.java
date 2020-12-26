@@ -64,13 +64,15 @@ public class SignUpController {
         for (User user : userList) {
             if (user.getName().equals(signUpName.getText())) {
                 isMatched = true;
+                showErrorMessage("This username is already taken, please choose another username and password!");
+
             }
         }
         if (!isMatched) {
-            if(signUpName.getText().isEmpty() || signUpPassword.getText().isEmpty())
+            if(signUpName.getText().trim().isEmpty() || signUpPassword.getText().isEmpty())
                 showErrorMessage("Please do not leave the Username and Password blank.");
             else {
-                User user = new User(signUpName.getText(), signUpPassword.getText(), studentStatus);
+                User user = new User(signUpName.getText().trim(), signUpPassword.getText(), studentStatus);
                 dAOImpl.insertUser(user);
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader();
@@ -87,10 +89,11 @@ public class SignUpController {
                 logger.log(Level.SEVERE, "Failed to create new Window.", e);
                 }
                }
-            } else {
-                showErrorMessage("This username is already taken, please choose another username and password!");
-                signUpName.setText("");
-                signUpPassword.setText("");
+            } 
+        else {
+            showErrorMessage("This username is already taken, please choose another username and password!");
+            signUpName.setText("");
+            signUpPassword.setText("");
         }
     }
     
