@@ -113,7 +113,7 @@ public class SignUpController {
                 studentStatus = true;
             }
             for (User user : userList) {
-                if (user.getName().toLowerCase().equals(username.toLowerCase())) {
+                if (user.getName().toLowerCase().trim().equals(username.toLowerCase().trim())){
                     isMatched = true;
                     return false;
                 }
