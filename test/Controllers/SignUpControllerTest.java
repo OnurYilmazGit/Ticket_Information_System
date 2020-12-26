@@ -106,34 +106,29 @@ public class SignUpControllerTest {
        assertFalse(instance.addUser("ASE", "ecemmmm", true));       
     }     
     
-    /**
-     * Test of addUser method, of class SignUpController.
-//     */
-//    @org.junit.Test
-//    public void testAddUser_ActionEvent() {
-//        System.out.println("addUser");
-//        ActionEvent event = null;
-//        SignUpController instance = new SignUpController();
-//        instance.addUser(event);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    /**
-//     * Test of addUser method, of class SignUpController.
-//     */
-//    @org.junit.Test
-//    public void testAddUser_3args() {
-//        System.out.println("addUser");
-//        String username = "";
-//        String password = "";
-//        boolean isStudent = false;
-//        SignUpController instance = new SignUpController();
-//        boolean expResult = false;
-//        boolean result = instance.addUser(username, password, isStudent);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+     @Test
+    public void testSpecialCharecters(){
+       System.out.println("Special Charecters");        
+       SignUpController instance = new SignUpController();
+       assertTrue(instance.addUser("ASE#", "ecemmmm", true));       
+    }
+   @Test
+    public void testEscapeSequence(){
+       System.out.println("Escape Sequence");        
+       SignUpController instance = new SignUpController();
+       assertTrue(instance.addUser("ase\na", "ecemmmm", true));       
+    } 
+    @Test
+    public void testNotLatinAlphabet(){
+       System.out.println("Not Latin Alphabet");        
+       SignUpController instance = new SignUpController();
+       assertTrue(instance.addUser("스트레이 키즈", "ecemmmm", true));       
+    }
+    @Test
+    public void testGapControl(){
+       System.out.println("Gap Control");        
+       SignUpController instance = new SignUpController();
+       assertFalse(instance.addUser("   muratcankilicci   ", "ecemmmm", true));    //it gives False,because muratcankilicci is already exists in our database
+
     
 }
