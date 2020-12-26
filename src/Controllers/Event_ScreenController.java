@@ -65,6 +65,10 @@ public class Event_ScreenController implements Initializable {
     TableColumn availableTicketsCol = new TableColumn("Available Tickets");
     TableColumn addItem = new TableColumn("Add Event");
 
+    //for test cases
+    TextField numberField;
+    Button addButton;
+
     //private HashMap<Integer, Integer> cart = HoldCart.getInstance().getCart();
     HashMap<Integer, Integer> cart = new HashMap();
 
@@ -75,7 +79,7 @@ public class Event_ScreenController implements Initializable {
 
     @FXML
     private void showCart(MouseEvent e) {
-      //  HoldCart.getInstance().setCart(cart);
+        //  HoldCart.getInstance().setCart(cart);
         HoldEvent.getInstance().setEvent(e);
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -146,7 +150,7 @@ public class Event_ScreenController implements Initializable {
                 if (!empty) {
                     HBox pane = new HBox();
                     Button addButton = new Button("Add");
-                    TextField numberField = new TextField();
+                    numberField = new TextField();
                     numberField.setPromptText("max.10");
                     numberField.setFocusTraversable(false);
                     numberField.setMaxWidth(70);
@@ -156,36 +160,7 @@ public class Event_ScreenController implements Initializable {
                     addButton.setOnAction(event -> {
                         Event getevent = getTableView().getItems().get(getIndex());
 
-                        try {
-                            int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
-                            if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
-                                addToCart(getevent.getId(), numberOfTicketsAdded);
-
-                                getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
-                                System.out.println(getevent.getAvailableTickets());
-                                showDialog("The event was added your cart!");
-                                cart.forEach((key, value) -> {
-                                    System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
-                                    System.out.println(" ");
-                                    numberField.setText("");
-                                });
-                            } else if (numberOfTicketsAdded > 10) {
-                                showDialog("You can book up to 10 tickets!");
-                                numberField.setText("");
-                            } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
-                                showDialog("There aren't enough tickets for this reservation.");
-                                numberField.setText("");
-                            } else if (numberOfTicketsAdded == 0) {
-                                showDialog("Please provide a ticket number to make a reservation");
-                                numberField.setText("");
-                            } else {
-                                throw new Exception();
-                            }
-
-                        } catch (Exception errorType) {
-                            showDialog("Please provide a numeric ticket number between 1 and 10!");
-                            numberField.setText("");
-                        }
+                     checkNumTickets(numberField, getevent);
                     });
                 }
             }
@@ -230,7 +205,7 @@ public class Event_ScreenController implements Initializable {
 
                 if (!empty) {
                     HBox pane = new HBox();
-                    Button addButton = new Button("Add");
+                    addButton = new Button("Add");
                     TextField numberField = new TextField();
                     numberField.setPromptText("max.10");
                     numberField.setFocusTraversable(false);
@@ -240,34 +215,7 @@ public class Event_ScreenController implements Initializable {
 
                     addButton.setOnAction(event -> {
                         Event getevent = getTableView().getItems().get(getIndex());
-
-                        try {
-                            int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
-                            if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
-                                addToCart(getevent.getId(), numberOfTicketsAdded);
-                                showDialog("The event was added your cart!");
-                                cart.forEach((key, value) -> {
-                                    System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
-                                    System.out.println(" ");
-                                    numberField.setText("");
-                                });
-                            } else if (numberOfTicketsAdded > 10) {
-                                showDialog("You can book up to 10 tickets!");
-                                numberField.setText("");
-                            } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
-                                showDialog("There aren't enough tickets for this reservation.");
-                                numberField.setText("");
-                            } else if (numberOfTicketsAdded == 0) {
-                                showDialog("Please provide a ticket number to make a reservation");
-                                numberField.setText("");
-                            } else {
-                                throw new Exception();
-                            }
-
-                        } catch (Exception errorType) {
-                            showDialog("Please provide a numeric ticket number between 1 and 10!");
-                            numberField.setText("");
-                        }
+                        checkNumTickets(numberField, getevent);
                     });
                 }
 
@@ -291,5 +239,41 @@ public class Event_ScreenController implements Initializable {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
 
+    }
+
+    boolean checkNumTickets(TextField numberField, Event getevent) {
+        try {
+            int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
+            if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
+                addToCart(getevent.getId(), numberOfTicketsAdded);
+                showDialog("The event was added your cart!");
+                cart.forEach((key, value) -> {
+                    System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
+                    System.out.println(" ");
+                    numberField.setText("");
+                });
+                return true;
+            } else if (numberOfTicketsAdded > 10) {
+                showDialog("You can book up to 10 tickets!");
+                numberField.setText("");
+                return true;
+            } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
+                showDialog("There aren't enough tickets for this reservation.");
+                numberField.setText("");
+                return true;
+            } else if (numberOfTicketsAdded == 0) {
+                showDialog("Please provide a ticket number to make a reservation");
+                numberField.setText("");
+                return true;
+            } else {
+                throw new Exception();
+               
+            }
+
+        } catch (Exception errorType) {
+            showDialog("Please provide a numeric ticket number between 1 and 10!");
+            numberField.setText("");
+        }
+        return false;
     }
 }
