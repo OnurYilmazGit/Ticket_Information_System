@@ -56,12 +56,12 @@ public class Event_ScreenControllerTest {
      * Test of checkNumTickets method, of class Event_ScreenController.
      */
     @Test
-    public void intTestCheckNumTickets() {
+    public void negativeTestCheckNumTickets() {
         System.out.println("intTestCheckNumTickets");
         Event getevent = allEvents.get(0);
         Event_ScreenController instance = new Event_ScreenController();
         boolean expResult = false;
-        boolean result = instance.checkNumTickets(5, getevent);
+        boolean result = instance.checkNumTickets(-2, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
@@ -70,9 +70,9 @@ public class Event_ScreenControllerTest {
     @Test
     public void zeroTestCheckNumTickets() {
         System.out.println("zeroTestCheckNumTickets");
-        Event getevent = allEvents.get(0);
+        Event getevent = allEvents.get(2);
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.checkNumTickets(0, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
