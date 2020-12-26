@@ -67,30 +67,33 @@ public class SignUpController {
             }
         }
         if (!isMatched) {
-            User user = new User(signUpName.getText(), signUpPassword.getText(), studentStatus);
-            dAOImpl.insertUser(user);
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
+            if(signUpName.getText().isEmpty() || signUpPassword.getText().isEmpty())
+                showErrorMessage("Please do not leave the Username and Password blank.");
+            else {
+                User user = new User(signUpName.getText(), signUpPassword.getText(), studentStatus);
+                dAOImpl.insertUser(user);
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/Views/Main_Page.fxml"));
        
-                Scene scene = new Scene(fxmlLoader.load());
-                Stage stage = new Stage();
-                stage.setTitle("Event Screen");
-                stage.setScene(scene);
-                stage.show();
-               ((Node)(event.getSource())).getScene().getWindow().hide();
-            } catch (IOException e) {
-                Logger logger = Logger.getLogger(getClass().getName());
+                    Scene scene = new Scene(fxmlLoader.load());
+                    Stage stage = new Stage();
+                    stage.setTitle("Event Screen");
+                    stage.setScene(scene);
+                    stage.show();
+                    ((Node)(event.getSource())).getScene().getWindow().hide();
+                } catch (IOException e) {
+                    Logger logger = Logger.getLogger(getClass().getName());
                 logger.log(Level.SEVERE, "Failed to create new Window.", e);
-            }
-
-        } else {
-            showErrorMessage("This username is already taken, please choose another username and password!");
-            signUpName.setText("");
-            signUpPassword.setText("");
+                }
+               }
+            } else {
+                showErrorMessage("This username is already taken, please choose another username and password!");
+                signUpName.setText("");
+                signUpPassword.setText("");
         }
-
     }
+    
     public boolean addUser(String username,String password,boolean isStudent){
         boolean studentStatus = false;
         UserDAOImpl dAOImpl = new UserDAOImpl();
