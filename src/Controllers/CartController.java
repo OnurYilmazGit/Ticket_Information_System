@@ -94,7 +94,8 @@ public class CartController extends Event_ScreenController implements Initializa
             Reservation res = new Reservation(UserName.getInstance().getUser(), getevent.getId());
             System.out.println("Hello hello:" +getevent.getId());
             dAOImpl.insertReservation(res);
-            
+            getevent.setAvailableTickets(getevent.getAvailableTickets() - cart.get(getevent.getId()));
+            System.out.println(getevent.getAvailableTickets());
             for (int j : reservedEvents2) {
                 reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(j);
                 if (reservedEventsInfo.get(0).getStarTime().equals(getevent.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(getevent.getDate())) {

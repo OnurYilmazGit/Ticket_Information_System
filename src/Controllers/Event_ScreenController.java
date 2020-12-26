@@ -245,10 +245,6 @@ public class Event_ScreenController implements Initializable {
                             int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
                             if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
                                 addToCart(getevent.getId(), numberOfTicketsAdded);
-                                    
-                                
-                                getevent.setAvailableTickets(getevent.getAvailableTickets() - numberOfTicketsAdded);
-                                System.out.println(getevent.getAvailableTickets());
                                 showDialog("The event was added your cart!");
                                 cart.forEach((key, value) -> {
                                     System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
