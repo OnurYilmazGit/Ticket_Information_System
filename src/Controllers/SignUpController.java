@@ -99,39 +99,42 @@ public class SignUpController {
         UserDAOImpl dAOImpl = new UserDAOImpl();
         List<User> userList = dAOImpl.getAllUsers();
         boolean isMatched = false;
-
-        if (isStudent) {
-            studentStatus = true;
+        if(username.isEmpty()){
+            return false;
         }
-        for (User user : userList) {
-            if (user.getName().equals(username)) {
-                isMatched = true;
-                return false;
-            }
+        else if(password.isEmpty()){
+            return false;
         }
-        if (!isMatched) {
-            User user = new User(username, password, studentStatus);
-            try{
-                dAOImpl.insertUser(user);
+        else{
+            if (isStudent) {
+                studentStatus = true;
             }
-            catch(Exception e){
-                return false;
+            for (User user : userList) {
+                if (user.getName().toLowerCase().equals(username.toLowerCase())) {
+                    isMatched = true;
+                    return false;
+                }
             }
-            
-        } 
-        
-        
+            if (!isMatched) {
+                if(username.length()>45 || password.length()>45){
+                    return false;
+                }
+                
+                User user = new User(username, password, studentStatus);                 
+            } 
+        }
         return true;
-    }
+    }   
+    
     
             
-        private void showErrorMessage(String msg) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText(msg);
+    private void showErrorMessage(String msg) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Information Dialog");
+    alert.setHeaderText(null);
+    alert.setContentText(msg);
 
-        alert.showAndWait();
+    alert.showAndWait();
     }
 
 }
