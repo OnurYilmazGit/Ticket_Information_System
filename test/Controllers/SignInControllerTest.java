@@ -104,6 +104,17 @@ public class SignInControllerTest {
         boolean expResult = false;
         boolean result = instance.signIn(username_, password_);
         assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void right_username_and_password_with_Uppercase() {
+        System.out.println("signIn");
+        String username_ = "ONUR";
+        String password_ = "1234";
+        SignInController instance = new SignInController();
+        boolean expResult = false;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
     }  
     
 }
