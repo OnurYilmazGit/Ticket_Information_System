@@ -5,7 +5,6 @@
  */
 package Controllers;
 
-import javafx.event.ActionEvent;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,16 +40,70 @@ public class SignInControllerTest {
     /**
      * Test of signIn method, of class SignInController.
      */
+
+
+    /**
+     * Test of signIn method, of class SignInController.
+     */
     @Test
-    public void testSignIn() {
+    public void test_right_username_and_right_password() {
         System.out.println("signIn");
-        ActionEvent event = null;
+        String username_ = "onur";
+        String password_ = "1234";
         SignInController instance = new SignInController();
-        instance.signInUsername.setText("ec");
-        instance.signInPassword .setText("ec");
-        instance.signIn(event);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean expResult = true;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
+    } 
+    @Test
+    public void test_wrong_username_and__right_password() {
+        System.out.println("signIn");
+        String username_ = "on";
+        String password_ = "1234";
+        SignInController instance = new SignInController();
+        boolean expResult = false;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
+    } 
+    @Test
+    public void test_wrong_username_and__wrong_password() {
+        System.out.println("signIn");
+        String username_ = "on";
+        String password_ = "12";
+        SignInController instance = new SignInController();
+        boolean expResult = false;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
     }
+    @Test
+    public void test_empty_username_and_empty_password() {
+        System.out.println("signIn");
+        String username_ = "";
+        String password_ = "";
+        SignInController instance = new SignInController();
+        boolean expResult = false;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
+    }
+    @Test
+    public void test_empty_username_and_a_password() {
+        System.out.println("signIn");
+        String username_ = "";
+        String password_ = "1234";
+        SignInController instance = new SignInController();
+        boolean expResult = false;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
+    }  
+    @Test
+    public void test_a_username_and_empty_password() {
+        System.out.println("signIn");
+        String username_ = "onur";
+        String password_ = "";
+        SignInController instance = new SignInController();
+        boolean expResult = false;
+        boolean result = instance.signIn(username_, password_);
+        assertEquals(expResult, result);
+    }  
     
 }
