@@ -90,6 +90,38 @@ public class SignInController {
 
     }
 
+    //Method overloading for the test cases.     
+    public boolean signIn(String username_,String password_) {
+        UserDAOImpl dAOImpl = new UserDAOImpl();
+        List<User> userList = dAOImpl.getAllUsers();
+        List<String> passwordList = Collections.EMPTY_LIST;
+        UserName.getInstance().setUser(username_);
+
+        boolean flag = false;
+
+        System.out.println("My Input: " + username_);
+
+        for (User user : userList) {
+            System.out.println("Username: " + user.getName());
+
+            if (username_.equals(user.getName())) {
+                flag = true;
+                System.out.println("User name matched");
+            }
+        }
+        if (flag) {
+            passwordList = dAOImpl.checkPassword(username_);
+            if (password_.equals(passwordList.get(0))) {
+                    return true;
+                }                  
+            else {                
+                return false;
+            }
+        } else {
+            return false; 
+        }
+    }
+    
     private void showErrorMessage(String msg) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
