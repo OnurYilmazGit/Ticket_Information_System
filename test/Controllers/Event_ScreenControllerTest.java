@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -26,11 +27,12 @@ public class Event_ScreenControllerTest {
      private List<Event> allEvents = eventDAOImpl.getAllEvents();
     
      public Event_ScreenControllerTest() {
-       
+      
     }
     
     @BeforeClass
     public static void setUpClass() {
+     
     }
     
     @AfterClass
@@ -39,6 +41,7 @@ public class Event_ScreenControllerTest {
     
     @Before
     public void setUp() {
+      
     }
     
     @After
@@ -108,5 +111,7 @@ public class Event_ScreenControllerTest {
         // TODO review the generated test code and remove the default call to fail.
        
     }
+        
+    }
     
-}
+

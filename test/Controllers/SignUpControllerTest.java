@@ -129,6 +129,6 @@ public class SignUpControllerTest {
        System.out.println("Gap Control");        
        SignUpController instance = new SignUpController();
        assertFalse(instance.addUser("   muratcankilicci   ", "ecemmmm", true));    //it gives False,because muratcankilicci is already exists in our database
-
-    
+   
+}
 }
