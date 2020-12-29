@@ -66,7 +66,7 @@ public class CartController extends Event_ScreenController implements Initializa
 
     @FXML
     private TableView<Event> CartView;
-    //  HashMap cart=new HashMap<Integer, Integer>();
+    // HashMap cart=new HashMap<Integer, Integer>();
 
     @FXML
     private Label totalPriceLabel;
@@ -79,16 +79,34 @@ public class CartController extends Event_ScreenController implements Initializa
     List<Event> allEvents = eventDAOImpl.getAllEvents();
     ReservationDAOImpl dAOImpl = new ReservationDAOImpl();
     UserDAOImpl userdaoimp = new UserDAOImpl();
+    
     Event_ScreenController event_ScreenController = new Event_ScreenController();
+    
     List<Integer> reservedEvents = dAOImpl.getReservedEvents(UserName.getInstance().getUser());
     List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
     List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
     ObservableList<Event> oListSelected;
+    
     double totalprice = 0;
-    private HashMap<Integer, Integer> cart = new HashMap<>();
-    byte is_user_student_b = userdaoimp.checkIfStudent(UserName.getInstance().getUser()).get(0);
-    boolean is_user_student = is_user_student_b != 0;
 
+    HashMap<Integer, Integer> cart = new HashMap<>();
+    
+    boolean is_user_student;
+    
+    
+    
+    
+    public double getTotalPrice(){
+        totalprice = 0;
+        for (Event eventt : selectedEvents) {
+            totalprice += eventt.getPrice();
+        }
+        if (is_user_student){
+            totalprice = totalprice * 0.7;
+        }
+        return totalprice;
+    }
+    
     @FXML
     private void approved(MouseEvent e) {
         boolean is_clash = false;
@@ -144,6 +162,8 @@ public class CartController extends Event_ScreenController implements Initializa
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        byte is_user_student_b = userdaoimp.checkIfStudent(UserName.getInstance().getUser()).get(0);
+        boolean is_user_student = is_user_student_b != 0;
        
         if(HoldCart.getInstance().getCart() == null){
             System.out.println("Cart is empty");

@@ -7,6 +7,7 @@ package tis_fx;
 
 import DAOs.EventDAO;
 import Models.Event;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -36,6 +37,24 @@ public class EventDAOImpl implements EventDAO{
         }
        return events;
     }
+    
+      public ArrayList<Event> getAllEvents_() {
+       ArrayList<Event> events = null;
+       try {
+            session.beginTransaction();
+            events = (ArrayList<Event>) session.createQuery("FROM Event").getResultList();
+
+        } catch (HibernateException e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+             session.getTransaction().commit();
+        }
+       return events;
+    }
+    
     public List<Event> getReservedEventsInfo(int id) {
        List<Event> events = null;
        try {

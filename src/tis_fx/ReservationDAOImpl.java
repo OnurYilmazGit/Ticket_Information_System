@@ -36,6 +36,23 @@ public class ReservationDAOImpl implements ReservationDAO{
         }
        return reserved_events;
     }
+    
+    public boolean deleteReservedEvents(Reservation r){
+        boolean result = false;
+         try {
+            System.out.println(r.getUsername());
+            session.beginTransaction();
+            session.delete(r);
+            session.getTransaction().commit();
+            result = true;
+        } catch (HibernateException e) {
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     
     public Reservation insertReservation(Reservation r) {
