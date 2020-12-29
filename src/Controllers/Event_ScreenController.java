@@ -268,28 +268,37 @@ public class Event_ScreenController implements Initializable {
                 cart.forEach((key, value) -> {
                     System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
                     System.out.println(" ");
-               
+                    System.out.println("1111111");            
                 });
-               status = true;
-            } else if (numberOfTicketsAdded > 10) {
-               //  showDialog("You can book up to 10 tickets!");
-             
                 status = true;
+            } 
+            else if (numberOfTicketsAdded > 10) {
+               //  showDialog("You can book up to 10 tickets!");
+                System.out.println("22222222");
+                status = false;
                 
             } else if (numberOfTicketsAdded > getevent.getAvailableTickets()) {
                  // showDialog("There aren't enough tickets for this reservation.");
+                    System.out.println("3333333");
              
-                 status = true;
+                 status = false;
             } else if (numberOfTicketsAdded == 0) {
                // showDialog("Please provide a ticket number to make a reservation");
+                    System.out.println("444444444");
             
                 status = true;
             } else {
-                
+                System.out.println("5555");
+                System.out.println(getevent.getId());
+                System.out.println(getevent.getName());                
                 status = false;
             }} catch(Exception e){
                 e.printStackTrace();
             }
         return status;
+    }
+    boolean checkNumTickets(String numberOfTicketsAdded, Event getevent) {
+       boolean status = false ;
+       return status;
     }
 }

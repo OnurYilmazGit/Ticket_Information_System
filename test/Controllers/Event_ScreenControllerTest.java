@@ -80,23 +80,24 @@ public class Event_ScreenControllerTest {
         @Test
         public void moreThanTenTestCheckNumTickets() {
         System.out.println("moreThanTenTestCheckNumTickets");
-        Event getevent = allEvents.get(3);
+        Event getevent = allEvents.get(1);
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instance.checkNumTickets(11, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
     }
+
         @Test
         public void charTestCheckNumTickets() {
         System.out.println("charTestCheckNumTickets");
-        Event getevent = allEvents.get(3);
+        Event getevent = allEvents.get(2);
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instance.checkNumTickets('e', getevent);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.    
+//         TODO review the generated test code and remove the default call to fail.    
     }
     
         @Test
@@ -105,13 +106,50 @@ public class Event_ScreenControllerTest {
         Event getevent = allEvents.get(1);
         int available_tickets=getevent.getAvailableTickets()+1;
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = true;
+        boolean expResult = false;
         boolean result = instance.checkNumTickets(available_tickets, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
     }
-        
+        @Test
+        public void stringCheckNumTickets() {
+        System.out.println("StringTestCheckNumTickets");
+        Event getevent = allEvents.get(2);
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = false;
+        boolean result = instance.checkNumTickets("ecemmm", getevent);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+       
     }
+        @Test
+        public void emptyStringCheckNumTickets() {
+        System.out.println("EmptyStringTestCheckNumTickets");
+        Event getevent = allEvents.get(2);
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = false;
+        boolean result = instance.checkNumTickets("", getevent);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+       
+    } 
+        
+        @Test
+        public void lessThanTenAvailableTestCheckNumTickets() {
+        System.out.println("LessThanTenAvailableCheckNumTickets");
+        Event getevent = allEvents.get(3);  //This event is going to be event which remains less than 10 available tickets in database that's why 3 for me
+        Event_ScreenController instance = new Event_ScreenController();
+        boolean expResult = true;
+        System.out.println("geliyoooo");
+        boolean result = instance.checkNumTickets(2, getevent);
+        System.out.println(getevent.getId());
+        System.out.println(getevent.getName());
+        assertEquals(expResult, result);
+//         TODO review the generated test code and remove the default call to fail.
+       
+    }        
+        
+}
     
 
