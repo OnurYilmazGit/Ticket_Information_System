@@ -161,7 +161,11 @@ public class Event_ScreenController implements Initializable {
                         Event getevent = getTableView().getItems().get(getIndex());
                          int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
                         try {
-                            checkNumTickets(numberOfTicketsAdded, getevent);
+                                if(checkNumTickets(numberOfTicketsAdded, getevent)){
+                                showDialog("The event was added your cart!");
+                                addToCart(getevent.getId(), numberOfTicketsAdded);
+                            }else
+                                showDialog("Error!");
                         } catch (Exception ex) {
                             Logger.getLogger(Event_ScreenController.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -222,9 +226,10 @@ public class Event_ScreenController implements Initializable {
                          int numberOfTicketsAdded = Integer.parseInt(numberField.getText());
                         try {
                             
-                            if(checkNumTickets(numberOfTicketsAdded, getevent))
+                            if(checkNumTickets(numberOfTicketsAdded, getevent)){
                                 showDialog("The event was added your cart!");
-                            else
+                                addToCart(getevent.getId(), numberOfTicketsAdded);
+                            }else
                                 showDialog("Error!");
                                
                         } catch (Exception ex) {
@@ -263,7 +268,7 @@ public class Event_ScreenController implements Initializable {
         boolean status = false ;   
         try{
             if (numberOfTicketsAdded <= 10 && numberOfTicketsAdded > 0 && numberOfTicketsAdded <= getevent.getAvailableTickets()) {
-                addToCart(getevent.getId(), numberOfTicketsAdded);
+                
                // showDialog("The event was added your cart!");
                 cart.forEach((key, value) -> {
                     System.out.println(String.valueOf(key) + " - " + String.valueOf(value));
