@@ -12,6 +12,7 @@ import java.util.List;
 import org.junit.After;
 import java.lang.Integer;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -88,6 +89,15 @@ public class CartControllerTest {
         Reservation res = new Reservation("test", getevent.getId());
         dAOImpl.insertReservation(res);
         assertTrue(dAOImpl.deleteReservedEvents(res));
+    }
+    
+    @Test
+    public void testSynchronEvent(){
+        CartController instance = new CartController();
+        Date date = new Date();
+        Event eventFirst = new Event(0,"Oscar","Ceremonie","Ankara","12:00",date,120.0,100);
+        Event eventSecond = new Event(0,"Altın Portakal","Ceremonie","Ankara","12:00",date,150.0,100);
+        assertTrue(instance.is_clash(eventFirst, eventSecond));
     }
     
     

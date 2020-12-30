@@ -107,6 +107,10 @@ public class CartController extends Event_ScreenController implements Initializa
         return totalprice;
     }
     
+    public boolean is_clash(Event left,Event right){
+        return left.getStarTime().equals(right.getStarTime()) && left.getDate().equals(right.getDate());
+    }
+    
     @FXML
     private void approved(MouseEvent e) {
         boolean is_clash = false;
@@ -120,9 +124,7 @@ public class CartController extends Event_ScreenController implements Initializa
             System.out.println(getevent.getAvailableTickets());
             for (int j : reservedEvents2) {
                 reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(j);
-                if (reservedEventsInfo.get(0).getStarTime().equals(getevent.getStarTime()) && reservedEventsInfo.get(0).getDate().equals(getevent.getDate())) {
-                    is_clash = true;
-                }
+                is_clash = is_clash(reservedEventsInfo.get(0),getevent);
             }
         }
 
@@ -130,8 +132,8 @@ public class CartController extends Event_ScreenController implements Initializa
             for (int j = 0; j < CartView.getItems().size(); j++) {
                 Event getevent1 = CartView.getItems().get(i);
                 Event getevent2 = CartView.getItems().get(j);
-                if (getevent1.getId() != getevent2.getId() && getevent1.getDate().equals(getevent2.getDate()) && getevent1.getStarTime().equals(getevent2.getStarTime())) {
-                    is_clash = true;
+                if(getevent1.getId() != getevent2.getId()){
+                    is_clash = is_clash(getevent1,getevent2);
                 }
             }
         }
@@ -217,13 +219,13 @@ public class CartController extends Event_ScreenController implements Initializa
             double discountedPrice = totalprice * 0.7;
             //System.out.println("Hello burdayım:"+s);
             discountedPriceLabel.setVisible(true);
-            discountedPriceLabel.setText("Discounted Price: " + discountedPrice);
+            discountedPriceLabel.setText("Discounted Price: " + String.format("%.2f", discountedPrice));
             totalPriceLabel.setOpacity(0.4);
-            totalPriceLabel.setText("Total Price: " + totalprice);
+            totalPriceLabel.setText("Total Price: " + String.format("%.2f", totalprice));
 
         } else {
             String s = "" + totalprice;
-            totalPriceLabel.setText("Total Price: " + totalprice);
+            totalPriceLabel.setText("Total Price: " + String.format("%.2f", totalprice));
         }
 
         cancelEvent.setCellFactory(param -> new TableCell<Event, Event>() {
@@ -246,11 +248,11 @@ public class CartController extends Event_ScreenController implements Initializa
                                 double discountedPrice = totalprice * 0.7;
                                 //System.out.println("Hello burdayım:"+s);
                                 discountedPriceLabel.setVisible(true);
-                                discountedPriceLabel.setText("Discounted Price: " + discountedPrice);
+                                discountedPriceLabel.setText("Discounted Price: " + String.format("%.2f", discountedPrice));
                                 totalPriceLabel.setOpacity(0.4);
-                                totalPriceLabel.setText("Total Price: " + totalprice);
+                                totalPriceLabel.setText("Total Price: " + String.format("%.2f", totalprice));
                             } else {
-                                 totalPriceLabel.setText("Total Price: " + totalprice);
+                                 totalPriceLabel.setText("Total Price: " + String.format("%.2f", totalprice));
                             }
                             cart.put(getevent.getId(), 0);
                             System.out.println("removed:" + getevent.getId());
