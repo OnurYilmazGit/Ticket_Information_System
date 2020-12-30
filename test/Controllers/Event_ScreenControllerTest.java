@@ -26,7 +26,7 @@ public class Event_ScreenControllerTest {
      EventDAOImpl eventDAOImpl = new EventDAOImpl();
      private List<Event> allEvents = eventDAOImpl.getAllEvents();
     
-     public Event_ScreenControllerTest() {
+    public Event_ScreenControllerTest() {
       
     }
     

@@ -8,6 +8,7 @@ package Controllers;
 
 import Models.Event;
 import Models.Reservation;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,31 +35,24 @@ public class MyReservationPageController implements Initializable {
     @FXML
     private TableView<Event> tableView;
 
-    ReservationDAOImpl reservationDAOImpl = new ReservationDAOImpl();
-    EventDAOImpl eventDAOImpl = new EventDAOImpl();
+    ReservationDAOImpl reservationDAOImpl;
+    EventDAOImpl eventDAOImpl;
     
-    List<Integer> reservedEvents = reservationDAOImpl.getReservedEvents(UserName.getInstance().getUser());
-    List<Integer> reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
+    List<Integer> reservedEvents;
+    List<Integer> reservedEvents2;
     List<Event> reservedEventsInfo = Collections.EMPTY_LIST;
     List<Event> newList = Collections.EMPTY_LIST;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        reservationDAOImpl = new ReservationDAOImpl();
+        eventDAOImpl = new EventDAOImpl();
+        
+        reservedEvents = reservationDAOImpl.getReservedEvents(UserName.getInstance().getUser());
+        reservedEvents2 = reservedEvents.stream().distinct().collect(Collectors.toList());
         //eventDAOImpl.getReservedEventsInfo(1);
         
-        System.out.println("Reserved events size: " + reservedEvents.size()); 
-
-        if(reservedEvents.isEmpty()){
-        System.out.println("Is empty");
-        createTable();
-        } else {
-        
-        for(int i : reservedEvents2){
-            System.out.println("index:"+i);
-            reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i); 
-            System.out.println(reservedEventsInfo.get(0).getName()+"-"+ reservedEventsInfo.get(0).getType()+"-"+reservedEventsInfo.get(0).getStarTime());
-            tableView.getItems().add(reservedEventsInfo.get(0));
-        }
+        dbToView();
         
         createTable();
    
@@ -76,12 +70,33 @@ public class MyReservationPageController implements Initializable {
         //ObservableList<Event> oListEvents = FXCollections.observableArrayList(tmpList);
 
     //    System.out.println(reservedEventsInfo.get(0).getName());
-        System.out.println("Test Test Test : "+reservedEvents.get(0));
+        
          
       
                 
        //tableView.setItems(oListEvents);    
     }    
+    
+    
+    public boolean dbToView(){
+        try{
+            if(reservedEvents.isEmpty()){
+            System.out.println("Is empty");
+            //createTable();
+            }
+            else{
+                for(int i : reservedEvents2){
+                    System.out.println("index:"+i);
+                    reservedEventsInfo = eventDAOImpl.getReservedEventsInfo(i); 
+                    System.out.println(reservedEventsInfo.get(0).getName()+"-"+ reservedEventsInfo.get(0).getType()+"-"+reservedEventsInfo.get(0).getStarTime());
+                    tableView.getItems().add(reservedEventsInfo.get(0));
+                }
+            }
+        }
+        catch(Error e){
+            return false;
+        }
+        return true;
     }
     
     private void createTable(){
