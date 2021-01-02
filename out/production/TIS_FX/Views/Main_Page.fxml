@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" styleClass="pane" stylesheets="@../tis_fx/styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Main_PageController">
+   <children>
+      <Pane fx:id="main_pane" layoutX="200.0" prefHeight="720.0" prefWidth="1015.0" />
+      <JFXHamburger fx:id="hamburger" layoutX="1230.0" layoutY="35.0" />
+      <JFXDrawer fx:id="drawer" defaultDrawerSize="200.0" prefHeight="720.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

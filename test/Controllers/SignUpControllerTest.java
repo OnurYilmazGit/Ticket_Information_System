@@ -10,9 +10,10 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.*;
-import junit.framework.Assert;
+import junit.framework.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 

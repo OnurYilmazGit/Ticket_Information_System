@@ -59,8 +59,8 @@ public class Event_ScreenControllerTest {
         System.out.println("intTestCheckNumTickets");
         Event getevent = allEvents.get(0);
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = false;
-        boolean result = instance.checkNumTickets(-2, getevent);
+        boolean expResult = true;
+        boolean result = instance.checkNegativeNumber(-2, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
@@ -72,7 +72,7 @@ public class Event_ScreenControllerTest {
         Event getevent = allEvents.get(2);
         Event_ScreenController instance = new Event_ScreenController();
         boolean expResult = true;
-        boolean result = instance.checkNumTickets(0, getevent);
+        boolean result = instance.checkIsZero(0, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
@@ -82,8 +82,8 @@ public class Event_ScreenControllerTest {
         System.out.println("moreThanTenTestCheckNumTickets");
         Event getevent = allEvents.get(1);
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = false;
-        boolean result = instance.checkNumTickets(11, getevent);
+        boolean expResult = true;
+        boolean result = instance.checkGreaterThan10(11, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
@@ -95,7 +95,7 @@ public class Event_ScreenControllerTest {
         Event getevent = allEvents.get(2);
         Event_ScreenController instance = new Event_ScreenController();
         boolean expResult = false;
-        boolean result = instance.checkNumTickets('e', getevent);
+        boolean result = instance.checkCorrectReq('e', getevent);
         assertEquals(expResult, result);
 //         TODO review the generated test code and remove the default call to fail.    
     }
@@ -106,8 +106,8 @@ public class Event_ScreenControllerTest {
         Event getevent = allEvents.get(1);
         int available_tickets=getevent.getAvailableTickets()+1;
         Event_ScreenController instance = new Event_ScreenController();
-        boolean expResult = false;
-        boolean result = instance.checkNumTickets(available_tickets, getevent);
+        boolean expResult = true;
+        boolean result = instance.checkGreaterThanAvailableTickets(available_tickets, getevent);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
        
@@ -142,7 +142,7 @@ public class Event_ScreenControllerTest {
         Event_ScreenController instance = new Event_ScreenController();
         boolean expResult = true;
         System.out.println("geliyoooo");
-        boolean result = instance.checkNumTickets(2, getevent);
+        boolean result = instance.checkCorrectReq(2, getevent);
         System.out.println(getevent.getId());
         System.out.println(getevent.getName());
         assertEquals(expResult, result);
